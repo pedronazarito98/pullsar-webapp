@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+.next/
+out/
+build/
+dist/
+.cache/
+.turbo/
+
+# Misc
+.DS_Store
+*.pem
+coverage/
+.env*
+
+# Lock files
+pnpm-lock.yaml
+yarn.lock
+package-lock.json

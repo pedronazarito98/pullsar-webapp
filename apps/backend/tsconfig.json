@@ -1,0 +1,23 @@
+{
+  "extends": "@pullsar/typescript-config/strapi.json",
+  "compilerOptions": {
+    "noEmitOnError": true,
+    "noImplicitThis": true
+  },
+  "include": [
+    "./",
+    "./**/*.ts",
+    "./**/*.js",
+    "src/**/*.json"
+  ],
+  "exclude": [
+    "node_modules/",
+    "build/",
+    "dist/",
+    ".cache/",
+    ".tmp/",
+    "src/admin/",
+    "**/*.test.*",
+    "src/plugins/**"
+  ]
+}
