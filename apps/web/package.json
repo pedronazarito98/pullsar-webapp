@@ -11,6 +11,8 @@
     "clean": "rm -rf .next .turbo node_modules"
   },
   "dependencies": {
+    "@tanstack/react-query": "5.90.11",
+    "axios": "1.13.2",
     "lucide-react": "^0.552.0",
     "motion": "^12.23.24",
     "next": "16.0.0",

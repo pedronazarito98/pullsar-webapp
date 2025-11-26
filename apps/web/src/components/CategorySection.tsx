@@ -1,23 +1,10 @@
-import React from 'react';
+import { Category } from '@/hooks/useCategories';
+import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { ArrowRight } from 'lucide-react';
 
 interface CategorySectionProps {
-  category: {
-    id: string;
-    name: string;
-    color: string;
-    image: string;
-    articles: Array<{
-      id: string;
-      title: string;
-      excerpt: string;
-      author: string;
-      readTime: string;
-      image?: string;
-    }>;
-  };
+  category: Category;
   layout: 'featured' | 'grid' | 'split' | 'minimal';
   onNavigateToArticle: (articleId: string) => void;
   onNavigateToCategory: (categoryId: string) => void;
@@ -54,7 +41,7 @@ export function CategorySection({
               </h2>
             </div>
             <button
-              onClick={() => onNavigateToCategory(category.id)}
+              onClick={() => onNavigateToCategory(category.slug)}
               className="group flex items-center space-x-2 text-[#722F37] hover:text-[#8B3A42] transition-colors"
             >
               <span className="text-sm tracking-wide">Ver Todos</span>
@@ -70,11 +57,11 @@ export function CategorySection({
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
               className="relative group cursor-pointer overflow-hidden"
-              onClick={() => onNavigateToArticle(featuredArticle.id)}
+              onClick={() => onNavigateToArticle(featuredArticle.slug)}
             >
               <div className="aspect-[4/5] overflow-hidden bg-[#F5F5F5]">
                 <ImageWithFallback
-                  src={featuredArticle.image || category.image}
+                  src={featuredArticle.cover?.url || category.image?.url || ''}
                   alt={featuredArticle.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -105,13 +92,13 @@ export function CategorySection({
               </div>
 
               <div className="flex items-center space-x-4 text-sm text-[#404040]">
-                <span>{featuredArticle.author}</span>
+                <span>{featuredArticle.author.name}</span>
                 <span>•</span>
                 <span>{featuredArticle.readTime}</span>
               </div>
 
               <button
-                onClick={() => onNavigateToArticle(featuredArticle.id)}
+                onClick={() => onNavigateToArticle(featuredArticle.slug)}
                 className="group flex items-center space-x-2 text-[#722F37] hover:text-[#8B3A42] transition-colors"
               >
                 <span className="tracking-wide">Continuar Lendo</span>
@@ -146,7 +133,7 @@ export function CategorySection({
               </h2>
             </div>
             <button
-              onClick={() => onNavigateToCategory(category.id)}
+              onClick={() => onNavigateToCategory(category.slug)}
               className="group flex items-center space-x-2 text-[#722F37] hover:text-[#8B3A42] transition-colors"
             >
               <span className="text-sm tracking-wide">Ver Todos</span>
@@ -164,11 +151,11 @@ export function CategorySection({
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="group cursor-pointer bg-white overflow-hidden hover:shadow-2xl transition-all duration-500"
-                onClick={() => onNavigateToArticle(article.id)}
+                onClick={() => onNavigateToArticle(article.slug)}
               >
                 <div className="aspect-[16/10] overflow-hidden bg-[#F5F5F5]">
                   <ImageWithFallback
-                    src={article.image || category.image}
+                    src={article.cover?.url || category.image?.url || ''}
                     alt={article.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
@@ -181,7 +168,7 @@ export function CategorySection({
                     {article.excerpt}
                   </p>
                   <div className="flex items-center space-x-3 text-xs text-[#404040]">
-                    <span>{article.author}</span>
+                    <span>{article.author.name}</span>
                     <span>•</span>
                     <span>{article.readTime}</span>
                   </div>
@@ -216,7 +203,7 @@ export function CategorySection({
               </h2>
             </div>
             <button
-              onClick={() => onNavigateToCategory(category.id)}
+              onClick={() => onNavigateToCategory(category.slug)}
               className="group flex items-center space-x-2 text-[#722F37] hover:text-[#8B3A42] transition-colors"
             >
               <span className="text-sm tracking-wide">Ver Todos</span>
@@ -234,11 +221,11 @@ export function CategorySection({
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
                 className="group cursor-pointer"
-                onClick={() => onNavigateToArticle(article.id)}
+                onClick={() => onNavigateToArticle(article.slug)}
               >
                 <div className="aspect-[16/11] overflow-hidden bg-[#F5F5F5] mb-6">
                   <ImageWithFallback
-                    src={article.image || category.image}
+                    src={article.cover?.url || category.image?.url || ''}
                     alt={article.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
@@ -250,7 +237,7 @@ export function CategorySection({
                   {article.excerpt}
                 </p>
                 <div className="flex items-center space-x-3 text-sm text-[#404040]">
-                  <span>{article.author}</span>
+                  <span>{article.author.name}</span>
                   <span>•</span>
                   <span>{article.readTime}</span>
                 </div>
@@ -284,7 +271,7 @@ export function CategorySection({
             </h2>
           </div>
           <button
-            onClick={() => onNavigateToCategory(category.id)}
+            onClick={() => onNavigateToCategory(category.slug)}
             className="group flex items-center space-x-2 text-[#722F37] hover:text-[#8B3A42] transition-colors"
           >
             <span className="text-sm tracking-wide">Ver Todos</span>
@@ -302,7 +289,7 @@ export function CategorySection({
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group cursor-pointer pb-8 border-b border-gray-200 last:border-0"
-              onClick={() => onNavigateToArticle(article.id)}
+              onClick={() => onNavigateToArticle(article.slug)}
             >
               <div className="grid sm:grid-cols-12 gap-6">
                 <div className="sm:col-span-8 lg:col-span-9 space-y-3">
@@ -313,16 +300,16 @@ export function CategorySection({
                     {article.excerpt}
                   </p>
                   <div className="flex items-center space-x-3 text-sm text-[#404040]">
-                    <span>{article.author}</span>
+                    <span>{article.author.name}</span>
                     <span>•</span>
                     <span>{article.readTime}</span>
                   </div>
                 </div>
-                {article.image && (
+                {article.cover && (
                   <div className="sm:col-span-4 lg:col-span-3">
                     <div className="aspect-square overflow-hidden bg-[#F5F5F5]">
                       <ImageWithFallback
-                        src={article.image}
+                        src={article.cover.url}
                         alt={article.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />

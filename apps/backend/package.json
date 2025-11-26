@@ -19,6 +19,7 @@
     "upgrade:dry": "npx @strapi/upgrade latest --dry"
   },
   "dependencies": {
+    "@sensinum/strapi-plugin-mcp": "1.1.0",
     "@strapi/plugin-cloud": "5.30.0",
     "@strapi/plugin-users-permissions": "5.30.0",
     "@strapi/strapi": "5.30.0",
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@pullsar/typescript-config": "workspace:*",
+    "@strapi/types": "5.31.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

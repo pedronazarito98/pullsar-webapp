@@ -41,9 +41,36 @@
       "target": "api::category.category",
       "inversedBy": "articles"
     },
+    "subtitle": {
+      "type": "string"
+    },
+    "readTime": {
+      "type": "string"
+    },
+    "views": {
+      "type": "integer",
+      "default": 0
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tag.tag",
+      "inversedBy": "articles"
+    },
     "blocks": {
       "type": "dynamiczone",
       "components": ["shared.media", "shared.quote", "shared.rich-text", "shared.slider"]
+    },
+    "contentBlocks": {
+      "type": "dynamiczone",
+      "components": [
+        "blocks.rich-text",
+        "blocks.image",
+        "blocks.quote",
+        "blocks.image-slider",
+        "blocks.video-embed",
+        "blocks.cta"
+      ]
     }
   }
 }

@@ -52,11 +52,13 @@ exports.default = ({ env }) => {
             useNullAsDefault: true,
         },
     };
-    return {
+    const config = {
         connection: {
             client,
             ...connections[client],
             acquireConnectionTimeout: env.int('DATABASE_CONNECTION_TIMEOUT', 60000),
         },
     };
+    console.log('DEBUG: database config:', JSON.stringify(config, null, 2));
+    return config;
 };

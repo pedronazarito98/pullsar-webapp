@@ -1,13 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Header } from './Header';
-import { Footer } from './Footer';
-import { ImageWithFallback } from './figma/ImageWithFallback';
-import { 
-  Clock, Calendar, User, Bookmark, Share2, 
-  Facebook, Twitter, Linkedin, Link as LinkIcon,
-  Heart, MessageCircle, Eye, ArrowRight, ChevronUp
+import { useArticle } from '@/hooks/useArticles';
+import {
+  ArrowRight,
+  Bookmark,
+  Calendar,
+  ChevronUp,
+  Clock,
+  Eye,
+  Facebook,
+  Heart,
+  Linkedin, Link as LinkIcon,
+  MessageCircle,
+  Share2,
+  Twitter,
+  User
 } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
+import { useEffect, useState } from 'react';
+import { Footer } from './Footer';
+import { Header } from './Header';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
 interface ArticlePageProps {
   articleId: string;
@@ -22,6 +33,7 @@ export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory 
   const [likes, setLikes] = useState(142);
   const [isLiked, setIsLiked] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const { data: article, isLoading } = useArticle(articleId);
 
   // Track scroll progress
   useEffect(() => {
@@ -38,23 +50,13 @@ export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const article = {
-    id: articleId,
-    title: 'O Renascimento do Cinema de Arte: Uma Nova Geração de Cineastas',
-    subtitle: 'Como diretores independentes estão revolucionando a narrativa cinematográfica com visões ousadas e experimentais',
-    category: 'Cinema',
-    categoryColor: '#722F37',
-    author: {
-      name: 'Clara Monteiro',
-      bio: 'Jornalista e crítica de cinema. Mestre em Estudos Cinematográficos pela USP.',
-      avatar: 'https://images.unsplash.com/photo-1570626742839-59acd9822944?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3cml0aW5nJTIwYXV0aG9yJTIwZGVza3xlbnwxfHx8fDE3NjIwMDUyODN8MA&ixlib=rb-4.1.0&q=80&w=1080'
-    },
-    date: '1 Nov 2025',
-    readTime: '8 min',
-    views: '2.4k',
-    heroImage: 'https://images.unsplash.com/photo-1666698907755-672d406ea71d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaW5lbWElMjB0aGVhdGVyJTIwZGFya3xlbnwxfHx8fDE3NjE5MDQ0NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    tags: ['Cinema de Arte', 'Cinema Independente', 'Diretores Emergentes', 'Narrativa Visual']
-  };
+  if (isLoading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
+
+  if (!article) {
+    return <div className="min-h-screen flex items-center justify-center">Article not found</div>;
+  }
 
   const relatedArticles = [
     {
@@ -120,7 +122,7 @@ export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory 
               onClick={() => onNavigateToCategory('cinema')}
               className="inline-block px-4 py-2 bg-[#722F37] text-white text-xs tracking-widest hover:bg-[#8B3A42] transition-colors mb-6"
             >
-              {article.category}
+              {article.category.name}
             </button>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl text-[#2C2C2C] mb-6 leading-tight">
@@ -136,7 +138,7 @@ export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory 
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 rounded-full overflow-hidden bg-[#F5F5F5]">
                   <ImageWithFallback
-                    src={article.author.avatar}
+                    src={article.author.avatar?.url || ''}
                     alt={article.author.name}
                     className="w-full h-full object-cover"
                   />
@@ -148,7 +150,7 @@ export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory 
                   <div className="flex items-center space-x-3 text-sm text-[#404040]">
                     <span className="flex items-center space-x-1">
                       <Calendar className="w-4 h-4" />
-                      <span>{article.date}</span>
+                      <span>{new Date(article.publishedAt).toLocaleDateString('pt-BR')}</span>
                     </span>
                     <span>•</span>
                     <span className="flex items-center space-x-1">
@@ -220,7 +222,7 @@ export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory 
             className="aspect-[16/9] overflow-hidden bg-[#F5F5F5] mb-12"
           >
             <ImageWithFallback
-              src={article.heroImage}
+              src={article.cover?.url || ''}
               alt={article.title}
               className="w-full h-full object-cover"
             />
@@ -300,12 +302,12 @@ export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory 
 
           {/* Tags */}
           <div className="flex flex-wrap gap-2 mb-12 pb-12 border-b border-gray-200">
-            {article.tags.map((tag) => (
+            {article.tags?.map((tag) => (
               <span
-                key={tag}
+                key={tag.slug}
                 className="px-4 py-2 bg-[#F5F5F5] text-[#404040] text-sm hover:bg-[#722F37] hover:text-white transition-colors cursor-pointer"
               >
-                #{tag}
+                #{tag.name}
               </span>
             ))}
           </div>
@@ -315,7 +317,7 @@ export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory 
             <div className="flex items-start space-x-4">
               <div className="w-20 h-20 rounded-full overflow-hidden bg-[#F5F5F5] flex-shrink-0">
                 <ImageWithFallback
-                  src={article.author.avatar}
+                  src={article.author.avatar?.url || ''}
                   alt={article.author.name}
                   className="w-full h-full object-cover"
                 />
@@ -329,7 +331,7 @@ export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory 
                   {article.author.name}
                 </h3>
                 <p className="text-[#404040] leading-relaxed">
-                  {article.author.bio}
+                  {article.author.bio || 'No bio available'}
                 </p>
               </div>
             </div>

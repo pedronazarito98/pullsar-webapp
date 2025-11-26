@@ -29,6 +29,9 @@
       "relation": "oneToMany",
       "target": "api::article.article",
       "mappedBy": "author"
+    },
+    "bio": {
+      "type": "text"
     }
   }
 }

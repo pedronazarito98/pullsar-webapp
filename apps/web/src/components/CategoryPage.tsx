@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import { useCategory } from '@/hooks/useCategories';
+import { ArrowRight, Filter, Grid, List } from 'lucide-react';
 import { motion } from 'motion/react';
-import { Header } from './Header';
+import { useState } from 'react';
 import { Footer } from './Footer';
+import { Header } from './Header';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { Grid, List, Filter, ArrowRight } from 'lucide-react';
 
 interface CategoryPageProps {
   categoryId: string;
@@ -14,80 +15,17 @@ interface CategoryPageProps {
 export function CategoryPage({ categoryId, onNavigateToArticle, onNavigateToHome }: CategoryPageProps) {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [filter, setFilter] = useState('todos');
+  const { data: category, isLoading } = useCategory(categoryId);
 
-  // Mock data based on category
-  const categoryData: Record<string, any> = {
-    cinema: {
-      name: 'Cinema',
-      color: '#722F37',
-      description: 'Críticas, análises e entrevistas sobre a sétima arte',
-      articles: [
-        {
-          id: 'cinema-1',
-          title: 'As Novas Vozes do Cinema Independente',
-          excerpt: 'Descubra os diretores emergentes que estão revolucionando a sétima arte com orçamentos modestos e visão ousada.',
-          author: 'Marina Silva',
-          date: '28 Out 2025',
-          readTime: '6 min',
-          category: 'Crítica',
-          image: 'https://images.unsplash.com/photo-1666698907755-672d406ea71d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaW5lbWElMjB0aGVhdGVyJTIwZGFya3xlbnwxfHx8fDE3NjE5MDQ0NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080'
-        },
-        {
-          id: 'cinema-2',
-          title: 'Hitchcock Revisitado: Análise Profunda',
-          excerpt: 'Uma análise profunda dos elementos que tornaram o mestre do suspense eternamente relevante no cinema mundial.',
-          author: 'Roberto Costa',
-          date: '26 Out 2025',
-          readTime: '10 min',
-          category: 'Análise',
-          image: 'https://images.unsplash.com/photo-1666698907755-672d406ea71d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaW5lbWElMjB0aGVhdGVyJTIwZGFya3xlbnwxfHx8fDE3NjE5MDQ0NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080'
-        },
-        {
-          id: 'cinema-3',
-          title: 'O Futuro do Cinema Brasileiro',
-          excerpt: 'Como a nova geração de cineastas está redefinindo a identidade do cinema nacional.',
-          author: 'Clara Monteiro',
-          date: '24 Out 2025',
-          readTime: '8 min',
-          category: 'Entrevista',
-          image: 'https://images.unsplash.com/photo-1666698907755-672d406ea71d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaW5lbWElMjB0aGVhdGVyJTIwZGFya3xlbnwxfHx8fDE3NjE5MDQ0NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080'
-        },
-        {
-          id: 'cinema-4',
-          title: 'Festivais de Cinema 2025',
-          excerpt: 'Os principais festivais do ano e os filmes que estão causando sensação.',
-          author: 'Pedro Alves',
-          date: '22 Out 2025',
-          readTime: '7 min',
-          category: 'Eventos',
-          image: 'https://images.unsplash.com/photo-1666698907755-672d406ea71d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaW5lbWElMjB0aGVhdGVyJTIwZGFya3xlbnwxfHx8fDE3NjE5MDQ0NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080'
-        },
-        {
-          id: 'cinema-5',
-          title: 'Cinematografia Digital vs. Filme',
-          excerpt: 'O eterno debate entre tradição e tecnologia no mundo da cinematografia.',
-          author: 'Ana Carolina',
-          date: '20 Out 2025',
-          readTime: '9 min',
-          category: 'Técnica',
-          image: 'https://images.unsplash.com/photo-1666698907755-672d406ea71d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaW5lbWElMjB0aGVhdGVyJTIwZGFya3xlbnwxfHx8fDE3NjE5MDQ0NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080'
-        },
-        {
-          id: 'cinema-6',
-          title: 'Mulheres no Cinema: Representatividade',
-          excerpt: 'O crescimento da presença feminina em todas as áreas da produção cinematográfica.',
-          author: 'Fernanda Lopes',
-          date: '18 Out 2025',
-          readTime: '11 min',
-          category: 'Crítica',
-          image: 'https://images.unsplash.com/photo-1666698907755-672d406ea71d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaW5lbWElMjB0aGVhdGVyJTIwZGFya3xlbnwxfHx8fDE3NjE5MDQ0NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080'
-        }
-      ]
-    }
-  };
-
-  const category = categoryData[categoryId] || categoryData.cinema;
   const filters = ['todos', 'crítica', 'análise', 'entrevista', 'eventos', 'técnica'];
+
+  if (isLoading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
+
+  if (!category) {
+    return <div className="min-h-screen flex items-center justify-center">Category not found</div>;
+  }
 
   return (
     <div className="min-h-screen bg-white">
