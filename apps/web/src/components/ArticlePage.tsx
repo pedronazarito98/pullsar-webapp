@@ -1,4 +1,5 @@
 import { useArticle } from '@/hooks/useArticles';
+import { useCategories } from '@/hooks/useCategories';
 import {
   ArrowRight,
   Bookmark,
@@ -8,11 +9,12 @@ import {
   Eye,
   Facebook,
   Heart,
-  Linkedin, Link as LinkIcon,
+  Linkedin,
+  Link as LinkIcon,
   MessageCircle,
   Share2,
   Twitter,
-  User
+  User,
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useState } from 'react';
@@ -26,7 +28,11 @@ interface ArticlePageProps {
   onNavigateToCategory: (categoryId: string) => void;
 }
 
-export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory }: ArticlePageProps) {
+export function ArticlePage({
+  articleId,
+  onNavigateToHome,
+  onNavigateToCategory,
+}: ArticlePageProps) {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [readProgress, setReadProgress] = useState(0);
   const [showShareMenu, setShowShareMenu] = useState(false);
@@ -34,6 +40,7 @@ export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory 
   const [isLiked, setIsLiked] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const { data: article, isLoading } = useArticle(articleId);
+  const { data: categories } = useCategories();
 
   // Track scroll progress
   useEffect(() => {
@@ -62,24 +69,27 @@ export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory 
     {
       id: 'related-1',
       title: 'Festivais de Cinema: O Circuito da Arte',
-      image: 'https://images.unsplash.com/photo-1605905898247-bb1fe36b587e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhcnQlMjBnYWxsZXJ5JTIwbW9kZXJufGVufDF8fHx8MTc2MjAwNTI4NHww&ixlib=rb-4.1.0&q=80&w=1080',
+      image:
+        'https://images.unsplash.com/photo-1605905898247-bb1fe36b587e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhcnQlMjBnYWxsZXJ5JTIwbW9kZXJufGVufDF8fHx8MTc2MjAwNTI4NHww&ixlib=rb-4.1.0&q=80&w=1080',
       category: 'Cinema',
-      readTime: '6 min'
+      readTime: '6 min',
     },
     {
       id: 'related-2',
       title: 'Cinematografia Digital: A Revolução Técnica',
-      image: 'https://images.unsplash.com/photo-1663215074193-46c175cf4673?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBtYWdhemluZSUyMHJlYWRpbmd8ZW58MXx8fHwxNzYyMDA1Mjg0fDA&ixlib=rb-4.1.0&q=80&w=1080',
+      image:
+        'https://images.unsplash.com/photo-1663215074193-46c175cf4673?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBtYWdhemluZSUyMHJlYWRpbmd8ZW58MXx8fHwxNzYyMDA1Mjg0fDA&ixlib=rb-4.1.0&q=80&w=1080',
       category: 'Cinema',
-      readTime: '7 min'
+      readTime: '7 min',
     },
     {
       id: 'related-3',
       title: 'Mulheres no Cinema: Novas Perspectivas',
-      image: 'https://images.unsplash.com/photo-1666698907755-672d406ea71d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaW5lbWElMjB0aGVhdGVyJTIwZGFya3xlbnwxfHx8fDE3NjE5MDQ0NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080',
+      image:
+        'https://images.unsplash.com/photo-1666698907755-672d406ea71d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaW5lbWElMjB0aGVhdGVyJTIwZGFya3xlbnwxfHx8fDE3NjE5MDQ0NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080',
       category: 'Cinema',
-      readTime: '9 min'
-    }
+      readTime: '9 min',
+    },
   ];
 
   const handleLike = () => {
@@ -93,7 +103,11 @@ export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory 
 
   return (
     <div className="min-h-screen bg-white">
-      <Header onNavigateToHome={onNavigateToHome} />
+      <Header
+        categories={categories || []}
+        onNavigateToHome={onNavigateToHome}
+        onNavigateToCategory={onNavigateToCategory}
+      />
 
       {/* Reading Progress Bar */}
       <motion.div
@@ -129,24 +143,20 @@ export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory 
               {article.title}
             </h1>
 
-            <p className="text-xl text-[#404040] mb-8 leading-relaxed">
-              {article.subtitle}
-            </p>
+            <p className="text-xl text-[#404040] mb-8 leading-relaxed">{article.subtitle}</p>
 
             {/* Author & Meta */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-8 border-b border-gray-200 space-y-4 sm:space-y-0">
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 rounded-full overflow-hidden bg-[#F5F5F5]">
                   <ImageWithFallback
-                    src={article.author.avatar?.url || ''}
+                    src={article.author.avatar?.url}
                     alt={article.author.name}
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div>
-                  <div className="text-[#2C2C2C] mb-1">
-                    {article.author.name}
-                  </div>
+                  <div className="text-[#2C2C2C] mb-1">{article.author.name}</div>
                   <div className="flex items-center space-x-3 text-sm text-[#404040]">
                     <span className="flex items-center space-x-1">
                       <Calendar className="w-4 h-4" />
@@ -222,7 +232,7 @@ export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory 
             className="aspect-[16/9] overflow-hidden bg-[#F5F5F5] mb-12"
           >
             <ImageWithFallback
-              src={article.cover?.url || ''}
+              src={article.cover?.url}
               alt={article.title}
               className="w-full h-full object-cover"
             />
@@ -236,67 +246,66 @@ export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory 
             className="prose prose-lg max-w-none mb-12"
           >
             <p className="text-lg text-[#2C2C2C] leading-relaxed mb-6">
-              O cinema de arte, aquele que desafia convenções e provoca reflexões profundas, 
-              parecia ter perdido espaço nos últimos anos para as grandes produções de estúdio. 
-              No entanto, uma nova geração de cineastas está provando que a narrativa experimental 
-              não apenas sobrevive, mas floresce em meio ao cenário contemporâneo.
+              O cinema de arte, aquele que desafia convenções e provoca reflexões profundas, parecia
+              ter perdido espaço nos últimos anos para as grandes produções de estúdio. No entanto,
+              uma nova geração de cineastas está provando que a narrativa experimental não apenas
+              sobrevive, mas floresce em meio ao cenário contemporâneo.
             </p>
 
             <p className="text-lg text-[#2C2C2C] leading-relaxed mb-6">
-              Esses jovens diretores, armados com câmeras digitais acessíveis e uma visão 
-              ousada, estão criando obras que dialogam com os grandes mestres do passado 
-              enquanto trazem uma sensibilidade única do século XXI. São filmes que rejeitam 
-              fórmulas prontas e abraçam a complexidade da experiência humana.
+              Esses jovens diretores, armados com câmeras digitais acessíveis e uma visão ousada,
+              estão criando obras que dialogam com os grandes mestres do passado enquanto trazem uma
+              sensibilidade única do século XXI. São filmes que rejeitam fórmulas prontas e abraçam
+              a complexidade da experiência humana.
             </p>
 
             <h2 className="text-3xl text-[#2C2C2C] mt-12 mb-6">O Retorno à Essência</h2>
 
             <p className="text-lg text-[#2C2C2C] leading-relaxed mb-6">
-              Diferentemente da era digital que prioriza a velocidade e o imediatismo, 
-              esses cineastas optam pela contemplação. Planos longos, silêncios significativos 
-              e narrativas não-lineares são algumas das características que marcam essa nova onda. 
-              É um cinema que exige do espectador, mas também o recompensa com experiências 
+              Diferentemente da era digital que prioriza a velocidade e o imediatismo, esses
+              cineastas optam pela contemplação. Planos longos, silêncios significativos e
+              narrativas não-lineares são algumas das características que marcam essa nova onda. É
+              um cinema que exige do espectador, mas também o recompensa com experiências
               cinematográficas profundamente memoráveis.
             </p>
 
             <p className="text-lg text-[#2C2C2C] leading-relaxed mb-6">
-              Festivais independentes ao redor do mundo têm sido o palco de estreia para muitos 
-              desses trabalhos. Longe dos holofotes de Hollywood, essas produções encontram seu 
-              público: pessoas em busca de algo além do entretenimento superficial, que desejam 
-              ser desafiadas e transformadas pela arte cinematográfica.
+              Festivais independentes ao redor do mundo têm sido o palco de estreia para muitos
+              desses trabalhos. Longe dos holofotes de Hollywood, essas produções encontram seu
+              público: pessoas em busca de algo além do entretenimento superficial, que desejam ser
+              desafiadas e transformadas pela arte cinematográfica.
             </p>
 
             <h2 className="text-3xl text-[#2C2C2C] mt-12 mb-6">Vozes Diversas, Histórias Únicas</h2>
 
             <p className="text-lg text-[#2C2C2C] leading-relaxed mb-6">
-              Uma das características mais marcantes deste renascimento é a diversidade. 
-              Mulheres, pessoas negras, LGBTQIA+ e outras vozes historicamente marginalizadas 
-              estão não apenas contando suas histórias, mas revolucionando a própria linguagem 
-              cinematográfica. Cada perspectiva traz consigo uma nova forma de ver e representar 
-              o mundo na tela.
+              Uma das características mais marcantes deste renascimento é a diversidade. Mulheres,
+              pessoas negras, LGBTQIA+ e outras vozes historicamente marginalizadas estão não apenas
+              contando suas histórias, mas revolucionando a própria linguagem cinematográfica. Cada
+              perspectiva traz consigo uma nova forma de ver e representar o mundo na tela.
             </p>
 
             <p className="text-lg text-[#2C2C2C] leading-relaxed mb-6">
-              Essa pluralidade enriquece o cinema como um todo, expandindo os limites do que 
-              consideramos possível em termos de narrativa visual. São histórias que desafiam 
-              o status quo, questionam estruturas de poder e oferecem representações autênticas 
-              de experiências antes invisibilizadas.
+              Essa pluralidade enriquece o cinema como um todo, expandindo os limites do que
+              consideramos possível em termos de narrativa visual. São histórias que desafiam o
+              status quo, questionam estruturas de poder e oferecem representações autênticas de
+              experiências antes invisibilizadas.
             </p>
 
             <h2 className="text-3xl text-[#2C2C2C] mt-12 mb-6">O Futuro é Experimental</h2>
 
             <p className="text-lg text-[#2C2C2C] leading-relaxed mb-6">
-              À medida que plataformas de streaming democratizam o acesso à distribuição, 
-              esses cineastas encontram novos caminhos para alcançar audiências globais. 
-              O modelo tradicional de exibição não é mais o único caminho, e isso abre 
-              possibilidades inimagináveis há uma década.
+              À medida que plataformas de streaming democratizam o acesso à distribuição, esses
+              cineastas encontram novos caminhos para alcançar audiências globais. O modelo
+              tradicional de exibição não é mais o único caminho, e isso abre possibilidades
+              inimagináveis há uma década.
             </p>
 
             <p className="text-lg text-[#2C2C2C] leading-relaxed mb-6">
-              O renascimento do cinema de arte não é apenas uma tendência passageira, 
-              mas um movimento cultural significativo que reafirma o poder transformador 
-              da sétima arte. Em um mundo saturado de conteúdo descartável, esses filmes 
-              nos lembram que o cinema pode — e deve — ser muito mais do que mero entretenimento.
+              O renascimento do cinema de arte não é apenas uma tendência passageira, mas um
+              movimento cultural significativo que reafirma o poder transformador da sétima arte. Em
+              um mundo saturado de conteúdo descartável, esses filmes nos lembram que o cinema pode
+              — e deve — ser muito mais do que mero entretenimento.
             </p>
           </motion.div>
 
@@ -317,7 +326,7 @@ export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory 
             <div className="flex items-start space-x-4">
               <div className="w-20 h-20 rounded-full overflow-hidden bg-[#F5F5F5] flex-shrink-0">
                 <ImageWithFallback
-                  src={article.author.avatar?.url || ''}
+                  src={article.author.avatar?.url}
                   alt={article.author.name}
                   className="w-full h-full object-cover"
                 />
@@ -327,9 +336,7 @@ export function ArticlePage({ articleId, onNavigateToHome, onNavigateToCategory 
                   <User className="w-4 h-4 text-[#722F37]" />
                   <span className="text-[#2C2C2C]">Sobre o Autor</span>
                 </div>
-                <h3 className="text-xl text-[#2C2C2C] mb-2">
-                  {article.author.name}
-                </h3>
+                <h3 className="text-xl text-[#2C2C2C] mb-2">{article.author.name}</h3>
                 <p className="text-[#404040] leading-relaxed">
                   {article.author.bio || 'No bio available'}
                 </p>

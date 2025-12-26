@@ -1,0 +1,288 @@
+{
+  "global": {
+    "siteName": "Pullsar Magazine",
+    "defaultSeo": {
+      "metaTitle": "Pullsar - Cultura Magazine",
+      "metaDescription": "A revista digital para mentes curiosas e apaixonadas por cultura contemporânea.",
+      "shareImage": null
+    },
+    "siteDescription": "A revista digital para mentes curiosas e apaixonadas por cultura contemporânea.",
+    "favicon": null
+  },
+  "about": {
+    "title": "Sobre o Pullsar Magazine",
+    "blocks": [
+      {
+        "__component": "shared.rich-text",
+        "body": "## Nossa Missão\n\nO Pullsar Magazine nasceu da paixão por contar histórias que importam. Somos uma revista digital dedicada a explorar as fronteiras da cultura contemporânea, trazendo perspectivas únicas sobre cinema, música, literatura e gastronomia.\n\n## Por que Pullsar?\n\nAssim como um pulsar emite sinais regulares pelo universo, queremos ser a fonte constante de conteúdo cultural de qualidade para nossos leitores."
+      },
+      {
+        "__component": "shared.quote",
+        "title": "Nosso Lema",
+        "body": "Cultura é o que conecta mentes curiosas através do tempo e do espaço."
+      }
+    ]
+  },
+  "categories": [
+    {
+      "name": "Cinema",
+      "slug": "cinema",
+      "description": "Críticas, análises e notícias do mundo cinematográfico",
+      "color": "#722F37"
+    },
+    {
+      "name": "Música",
+      "slug": "musica",
+      "description": "Shows, álbuns e artistas que movem a cena musical",
+      "color": "#1E3A5F"
+    },
+    {
+      "name": "Literatura",
+      "slug": "literatura",
+      "description": "Livros, autores e tendências literárias",
+      "color": "#2D5016"
+    },
+    {
+      "name": "Gastronomia",
+      "slug": "gastronomia",
+      "description": "Restaurantes, chefs e cultura gastronômica",
+      "color": "#8B4513"
+    }
+  ],
+  "tags": [
+    { "name": "Cinema de Arte", "slug": "cinema-de-arte" },
+    { "name": "Diretores", "slug": "diretores" },
+    { "name": "Oscar", "slug": "oscar" },
+    { "name": "Premiações", "slug": "premiacoes" },
+    { "name": "Streaming", "slug": "streaming" },
+    { "name": "Festivais", "slug": "festivais" },
+    { "name": "Shows", "slug": "shows" },
+    { "name": "MPB", "slug": "mpb" },
+    { "name": "Vinil", "slug": "vinil" },
+    { "name": "Livros", "slug": "livros" },
+    { "name": "Autoras", "slug": "autoras" },
+    { "name": "Restaurantes", "slug": "restaurantes" },
+    { "name": "Vinhos", "slug": "vinhos" },
+    { "name": "Chefs", "slug": "chefs" }
+  ],
+  "authors": [
+    {
+      "name": "Clara Monteiro",
+      "email": "clara.monteiro@pullsar.com",
+      "bio": "Crítica de cinema e cultura pop. Mestre em Cinema pela USP, escreve sobre filmes há mais de 10 anos.",
+      "avatar": "clara-monteiro.jpg"
+    },
+    {
+      "name": "Rafael Santos",
+      "email": "rafael.santos@pullsar.com",
+      "bio": "Jornalista musical e DJ. Cobre a cena musical brasileira e internacional desde 2015.",
+      "avatar": "rafael-santos.jpg"
+    },
+    {
+      "name": "Marina Costa",
+      "email": "marina.costa@pullsar.com",
+      "bio": "Escritora e crítica literária. Autora de dois livros de contos e colaboradora de revistas culturais.",
+      "avatar": "marina-costa.jpg"
+    },
+    {
+      "name": "Lucas Oliveira",
+      "email": "lucas.oliveira@pullsar.com",
+      "bio": "Crítico gastronômico e sommelier. Já visitou mais de 500 restaurantes pelo Brasil.",
+      "avatar": "lucas-oliveira.jpg"
+    }
+  ],
+  "articles": [
+    {
+      "title": "O Renascimento do Cinema de Arte",
+      "subtitle": "Uma nova geração redefine a narrativa visual",
+      "slug": "cinema-renascimento",
+      "description": "Jovens cineastas redefinem a narrativa visual experimental.",
+      "readTime": "8 min de leitura",
+      "category": { "id": 1 },
+      "author": { "id": 1 },
+      "cover": null,
+      "blocks": [
+        {
+          "__component": "shared.rich-text",
+          "body": "## A Revolução Silenciosa\n\nNos últimos anos, um movimento discreto mas poderoso tem transformado o panorama cinematográfico mundial."
+        }
+      ]
+    },
+    {
+      "title": "As Apostas Para o Oscar 2025",
+      "subtitle": "Análise dos favoritos da temporada",
+      "slug": "apostas-oscar-2025",
+      "description": "Análise dos filmes que devem dominar a cerimônia do Oscar.",
+      "readTime": "6 min de leitura",
+      "category": { "id": 1 },
+      "author": { "id": 1 },
+      "cover": null,
+      "blocks": [
+        {
+          "__component": "shared.rich-text",
+          "body": "## A Corrida pelo Oscar\n\nA temporada de premiações 2025 promete ser uma das mais disputadas."
+        }
+      ]
+    },
+    {
+      "title": "O Futuro do Streaming em 2025",
+      "subtitle": "Como as plataformas estão mudando o consumo",
+      "slug": "futuro-streaming-2025",
+      "description": "Transformações no streaming e seu impacto na produção.",
+      "readTime": "10 min de leitura",
+      "category": { "id": 1 },
+      "author": { "id": 1 },
+      "cover": null,
+      "blocks": [
+        {
+          "__component": "shared.rich-text",
+          "body": "## A Era do Streaming\n\nO streaming revolucionou a forma como consumimos conteúdo audiovisual."
+        }
+      ]
+    },
+    {
+      "title": "Guia Completo: Festivais de Verão 2025",
+      "subtitle": "Os melhores eventos musicais da temporada",
+      "slug": "festivais-verao-2025",
+      "description": "Os festivais que vão agitar o Brasil neste verão.",
+      "readTime": "7 min de leitura",
+      "category": { "id": 2 },
+      "author": { "id": 2 },
+      "cover": null,
+      "blocks": [
+        {
+          "__component": "shared.rich-text",
+          "body": "## Os Festivais Imperdíveis\n\nO verão brasileiro promete ser histórico para a música ao vivo."
+        }
+      ]
+    },
+    {
+      "title": "A Nova Geração da MPB",
+      "subtitle": "Artistas reinventando a música brasileira",
+      "slug": "mpb-nova-geracao",
+      "description": "Novos nomes levam a MPB para territórios sonoros inéditos.",
+      "readTime": "9 min de leitura",
+      "category": { "id": 2 },
+      "author": { "id": 2 },
+      "cover": null,
+      "blocks": [
+        {
+          "__component": "shared.rich-text",
+          "body": "## Novos Sons da MPB\n\nA música popular brasileira sempre se reinventou."
+        }
+      ]
+    },
+    {
+      "title": "O Retorno do Vinil: Nostalgia ou Qualidade?",
+      "subtitle": "Por que os discos voltaram a conquistar o público",
+      "slug": "vinil-retorno",
+      "description": "O fenômeno do retorno do vinil e seus motivos.",
+      "readTime": "6 min de leitura",
+      "category": { "id": 2 },
+      "author": { "id": 2 },
+      "cover": null,
+      "blocks": [
+        {
+          "__component": "shared.rich-text",
+          "body": "## O Vinil Voltou\n\nNos últimos anos, as vendas de vinil cresceram exponencialmente."
+        }
+      ]
+    },
+    {
+      "title": "Os 10 Livros Mais Esperados de 2025",
+      "subtitle": "Lançamentos imperdíveis para sua estante",
+      "slug": "livros-esperados-2025",
+      "description": "Os lançamentos literários mais aguardados do ano.",
+      "readTime": "8 min de leitura",
+      "category": { "id": 3 },
+      "author": { "id": 3 },
+      "cover": null,
+      "blocks": [
+        {
+          "__component": "shared.rich-text",
+          "body": "## Os Lançamentos do Ano\n\nConfira nossa seleção dos livros que vão marcar 2025."
+        }
+      ]
+    },
+    {
+      "title": "Autoras Brasileiras em Destaque",
+      "subtitle": "Vozes femininas na cena literária",
+      "slug": "autoras-brasileiras-destaque",
+      "description": "Escritoras brasileiras conquistando prêmios mundiais.",
+      "readTime": "7 min de leitura",
+      "category": { "id": 3 },
+      "author": { "id": 3 },
+      "cover": null,
+      "blocks": [
+        {
+          "__component": "shared.rich-text",
+          "body": "## Mulheres na Literatura\n\nAs escritoras brasileiras estão dominando as listas de mais vendidos."
+        }
+      ]
+    },
+    {
+      "title": "Clubes de Leitura: A Nova Tendência Social",
+      "subtitle": "Grupos de discussão literária em crescimento",
+      "slug": "clubes-leitura-tendencia",
+      "description": "Clubes de leitura como espaços de conexão cultural.",
+      "readTime": "5 min de leitura",
+      "category": { "id": 3 },
+      "author": { "id": 3 },
+      "cover": null,
+      "blocks": [
+        {
+          "__component": "shared.rich-text",
+          "body": "## O Fenômeno dos Clubes de Leitura\n\nEm tempos de isolamento digital, os clubes surgem como conexão."
+        }
+      ]
+    },
+    {
+      "title": "Os Melhores Restaurantes de São Paulo em 2025",
+      "subtitle": "Guia definitivo da boa mesa",
+      "slug": "melhores-restaurantes-sp-2025",
+      "description": "Restaurantes que definem a cena gastronômica paulistana.",
+      "readTime": "10 min de leitura",
+      "category": { "id": 4 },
+      "author": { "id": 4 },
+      "cover": null,
+      "blocks": [
+        {
+          "__component": "shared.rich-text",
+          "body": "## O Melhor de São Paulo\n\nSão Paulo é uma das capitais gastronômicas do mundo."
+        }
+      ]
+    },
+    {
+      "title": "Vinhos Naturais: O Movimento Que Chegou Para Ficar",
+      "subtitle": "A revolução no mundo dos vinhos",
+      "slug": "vinhos-naturais-movimento",
+      "description": "Vinhos naturais conquistam paladares com sabores únicos.",
+      "readTime": "8 min de leitura",
+      "category": { "id": 4 },
+      "author": { "id": 4 },
+      "cover": null,
+      "blocks": [
+        {
+          "__component": "shared.rich-text",
+          "body": "## O Que São Vinhos Naturais?\n\nProduzidos com mínima intervenção e sabores únicos."
+        }
+      ]
+    },
+    {
+      "title": "Chefs Brasileiros no Cenário Internacional",
+      "subtitle": "Talentos conquistando o mundo",
+      "slug": "chefs-brasileiros-internacional",
+      "description": "Brasileiros comandam restaurantes estrelados no mundo.",
+      "readTime": "6 min de leitura",
+      "category": { "id": 4 },
+      "author": { "id": 4 },
+      "cover": null,
+      "blocks": [
+        {
+          "__component": "shared.rich-text",
+          "body": "## Brasil no Mundo\n\nChefs brasileiros conquistam estrelas Michelin."
+        }
+      ]
+    }
+  ]
+}

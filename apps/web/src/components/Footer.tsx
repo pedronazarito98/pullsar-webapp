@@ -1,10 +1,18 @@
-import React from 'react';
-import { Instagram, Twitter, Facebook, Youtube, Mail } from 'lucide-react';
+import { Category } from '@/hooks/useCategories';
+import { Facebook, Instagram, Mail, Twitter, Youtube } from 'lucide-react';
+import Link from 'next/link';
 
-export function Footer() {
-  const categories = [
-    'Cinema', 'Música', 'Teatro', 'Literatura', 
-    'Gastronomia', 'Vida Noturna', 'Moda'
+interface FooterProps {
+  categories?: Category[];
+}
+
+export function Footer({ categories }: FooterProps) {
+  // Fallback se não receber categorias
+  const displayCategories = categories?.map((c) => ({ name: c.name, slug: c.slug })) || [
+    { name: 'Cinema', slug: 'cinema' },
+    { name: 'Música', slug: 'musica' },
+    { name: 'Literatura', slug: 'literatura' },
+    { name: 'Gastronomia', slug: 'gastronomia' },
   ];
 
   return (
@@ -15,10 +23,10 @@ export function Footer() {
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-2 mb-6">
               <div className="w-10 h-10 bg-[#722F37] flex items-center justify-center">
-                <span className="tracking-wider">C</span>
+                <span className="tracking-wider">P</span>
               </div>
               <div>
-                <div className="tracking-tight">CULTURA</div>
+                <div className="tracking-tight">PULLSAR</div>
                 <div className="text-[10px] text-[#722F37] tracking-widest">MAGAZINE</div>
               </div>
             </div>
@@ -45,11 +53,14 @@ export function Footer() {
           <div>
             <h3 className="tracking-wide mb-4">Categorias</h3>
             <ul className="space-y-2">
-              {categories.map((category) => (
-                <li key={category}>
-                  <button className="text-sm text-gray-400 hover:text-[#722F37] transition-colors">
-                    {category}
-                  </button>
+              {displayCategories.map((category) => (
+                <li key={category.slug}>
+                  <Link
+                    href={`/blog/${category.slug}`}
+                    className="text-sm text-gray-400 hover:text-[#722F37] transition-colors"
+                  >
+                    {category.name}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -60,29 +71,19 @@ export function Footer() {
             <h3 className="tracking-wide mb-4">Sobre</h3>
             <ul className="space-y-2 text-sm text-gray-400">
               <li>
-                <button className="hover:text-[#722F37] transition-colors">
-                  Quem Somos
-                </button>
+                <button className="hover:text-[#722F37] transition-colors">Quem Somos</button>
               </li>
               <li>
-                <button className="hover:text-[#722F37] transition-colors">
-                  Equipe Editorial
-                </button>
+                <button className="hover:text-[#722F37] transition-colors">Equipe Editorial</button>
               </li>
               <li>
-                <button className="hover:text-[#722F37] transition-colors">
-                  Anuncie Conosco
-                </button>
+                <button className="hover:text-[#722F37] transition-colors">Anuncie Conosco</button>
               </li>
               <li>
-                <button className="hover:text-[#722F37] transition-colors">
-                  Trabalhe Conosco
-                </button>
+                <button className="hover:text-[#722F37] transition-colors">Trabalhe Conosco</button>
               </li>
               <li>
-                <button className="hover:text-[#722F37] transition-colors">
-                  Contato
-                </button>
+                <button className="hover:text-[#722F37] transition-colors">Contato</button>
               </li>
             </ul>
           </div>
@@ -115,9 +116,7 @@ export function Footer() {
             <button className="hover:text-[#722F37] transition-colors">
               Política de Privacidade
             </button>
-            <button className="hover:text-[#722F37] transition-colors">
-              Termos de Uso
-            </button>
+            <button className="hover:text-[#722F37] transition-colors">Termos de Uso</button>
           </div>
         </div>
       </div>

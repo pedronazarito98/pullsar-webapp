@@ -1,3 +1,6 @@
+// TODO: Este componente é legado e usa estrutura diferente de Article.
+// Deve ser refatorado ou removido quando migrar completamente para App Router.
+import { Article } from '@/hooks/useArticles';
 import { useCategory } from '@/hooks/useCategories';
 import { ArrowRight, Filter, Grid, List } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -8,11 +11,15 @@ import { ImageWithFallback } from './figma/ImageWithFallback';
 
 interface CategoryPageProps {
   categoryId: string;
-  onNavigateToArticle: (articleId: string) => void;
+  onNavigateToArticle: (articleId: number) => void;
   onNavigateToHome: () => void;
 }
 
-export function CategoryPage({ categoryId, onNavigateToArticle, onNavigateToHome }: CategoryPageProps) {
+export function CategoryPage({
+  categoryId,
+  onNavigateToArticle,
+  onNavigateToHome,
+}: CategoryPageProps) {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [filter, setFilter] = useState('todos');
   const { data: category, isLoading } = useCategory(categoryId);
@@ -29,7 +36,7 @@ export function CategoryPage({ categoryId, onNavigateToArticle, onNavigateToHome
 
   return (
     <div className="min-h-screen bg-white">
-      <Header onNavigateToHome={onNavigateToHome} />
+      <Header />
 
       {/* Category Hero */}
       <section className="pt-32 pb-16 bg-[#FAFAFA] border-b border-gray-200">
@@ -40,17 +47,10 @@ export function CategoryPage({ categoryId, onNavigateToArticle, onNavigateToHome
             transition={{ duration: 0.6 }}
           >
             <div className="flex items-center space-x-4 mb-6">
-              <div 
-                className="w-2 h-16 rounded-full"
-                style={{ backgroundColor: category.color }}
-              />
-              <h1 className="text-5xl lg:text-6xl text-[#2C2C2C]">
-                {category.name}
-              </h1>
+              <div className="w-2 h-16 rounded-full" style={{ backgroundColor: category.color }} />
+              <h1 className="text-5xl lg:text-6xl text-[#2C2C2C]">{category.name}</h1>
             </div>
-            <p className="text-xl text-[#404040] max-w-2xl">
-              {category.description}
-            </p>
+            <p className="text-xl text-[#404040] max-w-2xl">{category.description}</p>
           </motion.div>
         </div>
       </section>
@@ -109,7 +109,7 @@ export function CategoryPage({ categoryId, onNavigateToArticle, onNavigateToHome
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {viewMode === 'grid' ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {category.articles.map((article: any, index: number) => (
+              {category.articles.map((article: Article, index: number) => (
                 <motion.article
                   key={article.id}
                   initial={{ opacity: 0, y: 30 }}
@@ -120,32 +120,30 @@ export function CategoryPage({ categoryId, onNavigateToArticle, onNavigateToHome
                 >
                   <div className="aspect-[4/5] overflow-hidden bg-[#F5F5F5] mb-6">
                     <ImageWithFallback
-                      src={article.image}
+                      src={article.cover?.url}
                       alt={article.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
-                  
+
                   <div className="space-y-3">
-                    <span 
+                    <span
                       className="inline-block px-3 py-1 text-xs tracking-widest text-white"
                       style={{ backgroundColor: category.color }}
                     >
-                      {article.category}
+                      {article.category.name}
                     </span>
-                    
+
                     <h3 className="text-2xl text-[#2C2C2C] group-hover:text-[#722F37] transition-colors leading-tight">
                       {article.title}
                     </h3>
-                    
-                    <p className="text-[#404040] leading-relaxed">
-                      {article.excerpt}
-                    </p>
-                    
+
+                    <p className="text-[#404040] leading-relaxed">{article.excerpt}</p>
+
                     <div className="flex items-center space-x-3 text-sm text-[#404040] pt-2">
-                      <span>{article.author}</span>
+                      <span>{article.author.name}</span>
                       <span>•</span>
-                      <span>{article.date}</span>
+                      <span>{article.publishedAt}</span>
                       <span>•</span>
                       <span>{article.readTime}</span>
                     </div>
@@ -155,7 +153,7 @@ export function CategoryPage({ categoryId, onNavigateToArticle, onNavigateToHome
             </div>
           ) : (
             <div className="space-y-8">
-              {category.articles.map((article: any, index: number) => (
+              {category.articles.map((article: Article, index: number) => (
                 <motion.article
                   key={article.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -168,39 +166,37 @@ export function CategoryPage({ categoryId, onNavigateToArticle, onNavigateToHome
                     <div className="sm:col-span-4">
                       <div className="aspect-[16/10] overflow-hidden bg-[#F5F5F5]">
                         <ImageWithFallback
-                          src={article.image}
+                          src={article.cover?.url}
                           alt={article.title}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                       </div>
                     </div>
-                    
+
                     <div className="sm:col-span-8 space-y-4">
                       <div className="flex items-center space-x-3">
-                        <span 
+                        <span
                           className="inline-block px-3 py-1 text-xs tracking-widest text-white"
                           style={{ backgroundColor: category.color }}
                         >
-                          {article.category}
+                          {article.category.name}
                         </span>
-                        <span className="text-sm text-[#404040]">{article.date}</span>
+                        <span className="text-sm text-[#404040]">{article.publishedAt}</span>
                       </div>
-                      
+
                       <h3 className="text-3xl text-[#2C2C2C] group-hover:text-[#722F37] transition-colors leading-tight">
                         {article.title}
                       </h3>
-                      
-                      <p className="text-[#404040] leading-relaxed">
-                        {article.excerpt}
-                      </p>
-                      
+
+                      <p className="text-[#404040] leading-relaxed">{article.excerpt}</p>
+
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3 text-sm text-[#404040]">
-                          <span>{article.author}</span>
+                          <span>{article.author.name}</span>
                           <span>•</span>
                           <span>{article.readTime}</span>
                         </div>
-                        
+
                         <button className="group/btn flex items-center space-x-2 text-[#722F37] hover:text-[#8B3A42] transition-colors">
                           <span className="text-sm tracking-wide">Ler Mais</span>
                           <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />

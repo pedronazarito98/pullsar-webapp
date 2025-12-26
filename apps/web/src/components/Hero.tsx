@@ -1,13 +1,22 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+'use client';
+
+import { Article } from '@/hooks/useArticles';
 import { ArrowRight, Clock } from 'lucide-react';
+import { motion } from 'motion/react';
+import Link from 'next/link';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
 interface HeroProps {
-  onNavigateToArticle: (articleId: string) => void;
+  featuredArticle: Article;
 }
 
-export function Hero({ onNavigateToArticle }: HeroProps) {
+export function Hero({ featuredArticle }: HeroProps) {
+  const publishedDate = new Date(featuredArticle.publishedAt).toLocaleDateString('pt-BR', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+
   return (
     <section className="relative h-screen min-h-[600px] flex items-center overflow-hidden bg-[#1A1A1A]">
       {/* Background Image with Overlay */}
@@ -18,8 +27,11 @@ export function Hero({ onNavigateToArticle }: HeroProps) {
         className="absolute inset-0"
       >
         <ImageWithFallback
-          src="https://images.unsplash.com/photo-1666698907755-672d406ea71d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaW5lbWElMjB0aGVhdGVyJTIwZGFya3xlbnwxfHx8fDE3NjE5MDQ0NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080"
-          alt="Cinema Hero"
+          src={
+            featuredArticle.cover?.url ||
+            'https://images.unsplash.com/photo-1666698907755-672d406ea71d?w=1200'
+          }
+          alt={featuredArticle.title}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#1A1A1A]/95 via-[#1A1A1A]/70 to-transparent"></div>
@@ -34,7 +46,10 @@ export function Hero({ onNavigateToArticle }: HeroProps) {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="mb-6"
           >
-            <span className="inline-block px-4 py-1.5 bg-[#722F37] text-white text-xs tracking-widest">
+            <span
+              className="inline-block px-4 py-1.5 text-white text-xs tracking-widest"
+              style={{ backgroundColor: featuredArticle.category.color }}
+            >
               DESTAQUE DA SEMANA
             </span>
           </motion.div>
@@ -45,7 +60,7 @@ export function Hero({ onNavigateToArticle }: HeroProps) {
             transition={{ delay: 0.5, duration: 0.8 }}
             className="text-4xl sm:text-5xl lg:text-7xl text-white mb-6 leading-tight"
           >
-            O Renascimento do Cinema de Arte
+            {featuredArticle.title}
           </motion.h1>
 
           <motion.p
@@ -54,8 +69,7 @@ export function Hero({ onNavigateToArticle }: HeroProps) {
             transition={{ delay: 0.7, duration: 0.8 }}
             className="text-lg sm:text-xl text-gray-300 mb-8 leading-relaxed"
           >
-            Uma nova geração de cineastas está redefinindo os limites da narrativa visual, 
-            trazendo de volta a essência experimental que marcou as grandes obras do século passado.
+            {featuredArticle.description}
           </motion.p>
 
           <motion.div
@@ -64,17 +78,17 @@ export function Hero({ onNavigateToArticle }: HeroProps) {
             transition={{ delay: 0.9, duration: 0.8 }}
             className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6"
           >
-            <button
-              onClick={() => onNavigateToArticle('cinema-renascimento')}
+            <Link
+              href={`/blog/${featuredArticle.category.slug}/${featuredArticle.slug}`}
               className="group flex items-center space-x-3 px-8 py-4 bg-[#722F37] hover:bg-[#8B3A42] text-white transition-all duration-300 hover:shadow-lg hover:shadow-[#722F37]/30"
             >
               <span className="tracking-wide">Ler Matéria</span>
               <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </button>
+            </Link>
 
             <div className="flex items-center space-x-2 text-gray-400">
               <Clock className="w-4 h-4" />
-              <span className="text-sm">8 min de leitura</span>
+              <span className="text-sm">{featuredArticle.readTime}</span>
             </div>
           </motion.div>
 
@@ -84,7 +98,9 @@ export function Hero({ onNavigateToArticle }: HeroProps) {
             transition={{ delay: 1.1, duration: 0.8 }}
             className="mt-12 pt-8 border-t border-gray-700"
           >
-            <p className="text-sm text-gray-500">Por Clara Monteiro • Cinema • 1 Nov 2025</p>
+            <p className="text-sm text-gray-500">
+              Por {featuredArticle.author.name} • {featuredArticle.category.name} • {publishedDate}
+            </p>
           </motion.div>
         </div>
       </div>

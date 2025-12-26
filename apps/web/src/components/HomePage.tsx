@@ -7,28 +7,38 @@ import { Hero } from './Hero';
 
 interface HomePageProps {
   onNavigateToCategory: (categoryId: string) => void;
-  onNavigateToArticle: (articleId: string) => void;
 }
 
-export function HomePage({ onNavigateToCategory, onNavigateToArticle }: HomePageProps) {
+export function HomePage({ onNavigateToCategory }: HomePageProps) {
   const { data: categories, isLoading: isLoadingCategories } = useCategories();
   const { data: articles, isLoading: isLoadingArticles } = useArticles();
+  const featuredArticle = articles?.[0];
 
   const layouts: Array<'featured' | 'grid' | 'split' | 'minimal'> = [
-    'featured', 'grid', 'split', 'minimal', 'featured', 'grid', 'split'
+    'featured',
+    'grid',
+    'split',
+    'minimal',
+    'featured',
+    'grid',
+    'split',
   ];
 
-  if (isLoadingCategories || isLoadingArticles) {
+  if (isLoadingCategories || isLoadingArticles || !featuredArticle) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   }
 
   return (
     <div className="min-h-screen">
-      <Header onNavigateToHome={() => window.scrollTo(0, 0)} />
-      
+      <Header
+        categories={categories || []}
+        onNavigateToHome={() => window.scrollTo(0, 0)}
+        onNavigateToCategory={onNavigateToCategory}
+      />
+
       {/* Hero needs padding for fixed header */}
       <div className="pt-16 sm:pt-20">
-        <Hero onNavigateToArticle={onNavigateToArticle} />
+        <Hero featuredArticle={featuredArticle} />
       </div>
 
       {/* Categories */}
@@ -37,8 +47,6 @@ export function HomePage({ onNavigateToCategory, onNavigateToArticle }: HomePage
           key={category.id}
           category={category}
           layout={layouts[index % layouts.length]}
-          onNavigateToArticle={onNavigateToArticle}
-          onNavigateToCategory={onNavigateToCategory}
         />
       ))}
 

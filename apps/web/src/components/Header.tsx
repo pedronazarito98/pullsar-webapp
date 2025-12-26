@@ -1,24 +1,33 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Search, Menu, X, Bookmark, User } from 'lucide-react';
+'use client';
+
+import { Category } from '@/hooks/useCategories';
+import { Bookmark, Menu, Search, User, X } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
+import Link from 'next/link';
+import { useState } from 'react';
 
 interface HeaderProps {
+  categories?: Category[];
   onNavigateToHome?: () => void;
+  onNavigateToCategory?: (categorySlug: string) => void;
 }
 
-export function Header({ onNavigateToHome }: HeaderProps) {
+export function Header({ categories, onNavigateToHome, onNavigateToCategory }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const categories = [
-    'Cinema', 'Música', 'Teatro', 'Literatura', 
-    'Gastronomia', 'Vida Noturna', 'Moda'
+  // Fallback se não receber categorias
+  const displayCategories = categories?.map((c) => ({ name: c.name, slug: c.slug })) || [
+    { name: 'Cinema', slug: 'cinema' },
+    { name: 'Música', slug: 'musica' },
+    { name: 'Literatura', slug: 'literatura' },
+    { name: 'Gastronomia', slug: 'gastronomia' },
   ];
 
   return (
     <>
-      <motion.header 
+      <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-gray-200 z-50"
@@ -26,29 +35,42 @@ export function Header({ onNavigateToHome }: HeaderProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
-            <button 
-              onClick={onNavigateToHome}
+            <Link
+              href="/"
+              onClick={(e) => {
+                if (onNavigateToHome) {
+                  e.preventDefault();
+                  onNavigateToHome();
+                }
+              }}
               className="flex items-center space-x-2 group"
             >
               <div className="w-10 h-10 bg-[#722F37] flex items-center justify-center transition-transform group-hover:scale-105">
-                <span className="text-white tracking-wider">C</span>
+                <span className="text-white tracking-wider">P</span>
               </div>
               <div className="hidden sm:block">
-                <div className="tracking-tight text-[#2C2C2C]">CULTURA</div>
+                <div className="tracking-tight text-[#2C2C2C]">PULLSAR</div>
                 <div className="text-[10px] text-[#722F37] tracking-widest">MAGAZINE</div>
               </div>
-            </button>
+            </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">
-              {categories.map((category) => (
-                <button
-                  key={category}
+              {displayCategories.map((category) => (
+                <Link
+                  key={category.slug}
+                  href={`/blog/${category.slug}`}
+                  onClick={(e) => {
+                    if (onNavigateToCategory) {
+                      e.preventDefault();
+                      onNavigateToCategory(category.slug);
+                    }
+                  }}
                   className="text-sm text-[#2C2C2C] hover:text-[#722F37] transition-colors relative group"
                 >
-                  {category}
+                  {category.name}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#722F37] transition-all group-hover:w-full"></span>
-                </button>
+                </Link>
               ))}
             </nav>
 
@@ -143,16 +165,27 @@ export function Header({ onNavigateToHome }: HeaderProps) {
 
                 <nav className="flex-1 overflow-y-auto p-6">
                   <div className="space-y-1">
-                    {categories.map((category, index) => (
-                      <motion.button
-                        key={category}
+                    {displayCategories.map((category, index) => (
+                      <motion.div
+                        key={category.slug}
                         initial={{ x: 50, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
                         transition={{ delay: index * 0.05 }}
-                        className="w-full text-left px-4 py-3 text-[#2C2C2C] hover:bg-[#FAFAFA] hover:text-[#722F37] transition-colors rounded-sm"
                       >
-                        {category}
-                      </motion.button>
+                        <Link
+                          href={`/blog/${category.slug}`}
+                          onClick={(e) => {
+                            setIsMenuOpen(false);
+                            if (onNavigateToCategory) {
+                              e.preventDefault();
+                              onNavigateToCategory(category.slug);
+                            }
+                          }}
+                          className="block w-full text-left px-4 py-3 text-[#2C2C2C] hover:bg-[#FAFAFA] hover:text-[#722F37] transition-colors rounded-sm"
+                        >
+                          {category.name}
+                        </Link>
+                      </motion.div>
                     ))}
                   </div>
 

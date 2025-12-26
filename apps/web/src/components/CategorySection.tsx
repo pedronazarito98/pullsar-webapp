@@ -1,25 +1,25 @@
+'use client';
+
 import { Category } from '@/hooks/useCategories';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
+import Link from 'next/link';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
 interface CategorySectionProps {
   category: Category;
   layout: 'featured' | 'grid' | 'split' | 'minimal';
-  onNavigateToArticle: (articleId: string) => void;
-  onNavigateToCategory: (categoryId: string) => void;
 }
 
-export function CategorySection({ 
-  category, 
-  layout, 
-  onNavigateToArticle,
-  onNavigateToCategory 
-}: CategorySectionProps) {
-  const featuredArticle = category.articles[0];
-  const otherArticles = category.articles.slice(1);
+export function CategorySection({ category, layout }: CategorySectionProps) {
+  const featuredArticle = category.articles?.[0];
 
-  if (layout === 'featured') {
+  // Se não há artigos, não renderiza a seção
+  if (!category.articles || category.articles.length === 0) {
+    return null;
+  }
+
+  if (layout === 'featured' && featuredArticle) {
     return (
       <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,21 +32,16 @@ export function CategorySection({
             className="flex items-center justify-between mb-12"
           >
             <div className="flex items-center space-x-4">
-              <div 
-                className="w-1 h-12 rounded-full"
-                style={{ backgroundColor: category.color }}
-              />
-              <h2 className="text-3xl sm:text-4xl text-[#2C2C2C]">
-                {category.name}
-              </h2>
+              <div className="w-1 h-12 rounded-full" style={{ backgroundColor: category.color }} />
+              <h2 className="text-3xl sm:text-4xl text-[#2C2C2C]">{category.name}</h2>
             </div>
-            <button
-              onClick={() => onNavigateToCategory(category.slug)}
+            <Link
+              href={`/blog/${category.slug}`}
               className="group flex items-center space-x-2 text-[#722F37] hover:text-[#8B3A42] transition-colors"
             >
               <span className="text-sm tracking-wide">Ver Todos</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </button>
+            </Link>
           </motion.div>
 
           {/* Featured Article */}
@@ -56,17 +51,18 @@ export function CategorySection({
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
-              className="relative group cursor-pointer overflow-hidden"
-              onClick={() => onNavigateToArticle(featuredArticle.slug)}
+              className="relative group overflow-hidden"
             >
-              <div className="aspect-[4/5] overflow-hidden bg-[#F5F5F5]">
-                <ImageWithFallback
-                  src={featuredArticle.cover?.url || category.image?.url || ''}
-                  alt={featuredArticle.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <Link href={`/blog/${category.slug}/${featuredArticle.slug}`}>
+                <div className="aspect-[4/5] overflow-hidden bg-[#F5F5F5]">
+                  <ImageWithFallback
+                    src={featuredArticle.cover?.url || category.image?.url}
+                    alt={featuredArticle.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              </Link>
             </motion.div>
 
             <motion.div
@@ -77,7 +73,7 @@ export function CategorySection({
               className="space-y-6"
             >
               <div>
-                <span 
+                <span
                   className="inline-block px-3 py-1 text-xs tracking-widest text-white mb-4"
                   style={{ backgroundColor: category.color }}
                 >
@@ -86,9 +82,7 @@ export function CategorySection({
                 <h3 className="text-3xl sm:text-4xl lg:text-5xl text-[#2C2C2C] mb-4 leading-tight">
                   {featuredArticle.title}
                 </h3>
-                <p className="text-lg text-[#404040] leading-relaxed">
-                  {featuredArticle.excerpt}
-                </p>
+                <p className="text-lg text-[#404040] leading-relaxed">{featuredArticle.excerpt}</p>
               </div>
 
               <div className="flex items-center space-x-4 text-sm text-[#404040]">
@@ -97,13 +91,13 @@ export function CategorySection({
                 <span>{featuredArticle.readTime}</span>
               </div>
 
-              <button
-                onClick={() => onNavigateToArticle(featuredArticle.slug)}
+              <Link
+                href={`/blog/${category.slug}/${featuredArticle.slug}`}
                 className="group flex items-center space-x-2 text-[#722F37] hover:text-[#8B3A42] transition-colors"
               >
                 <span className="tracking-wide">Continuar Lendo</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </button>
+              </Link>
             </motion.div>
           </div>
         </div>
@@ -124,21 +118,16 @@ export function CategorySection({
             className="flex items-center justify-between mb-12"
           >
             <div className="flex items-center space-x-4">
-              <div 
-                className="w-1 h-12 rounded-full"
-                style={{ backgroundColor: category.color }}
-              />
-              <h2 className="text-3xl sm:text-4xl text-[#2C2C2C]">
-                {category.name}
-              </h2>
+              <div className="w-1 h-12 rounded-full" style={{ backgroundColor: category.color }} />
+              <h2 className="text-3xl sm:text-4xl text-[#2C2C2C]">{category.name}</h2>
             </div>
-            <button
-              onClick={() => onNavigateToCategory(category.slug)}
+            <Link
+              href={`/blog/${category.slug}`}
               className="group flex items-center space-x-2 text-[#722F37] hover:text-[#8B3A42] transition-colors"
             >
               <span className="text-sm tracking-wide">Ver Todos</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </button>
+            </Link>
           </motion.div>
 
           {/* Grid Layout */}
@@ -150,29 +139,28 @@ export function CategorySection({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group cursor-pointer bg-white overflow-hidden hover:shadow-2xl transition-all duration-500"
-                onClick={() => onNavigateToArticle(article.slug)}
+                className="group bg-white overflow-hidden hover:shadow-2xl transition-all duration-500"
               >
-                <div className="aspect-[16/10] overflow-hidden bg-[#F5F5F5]">
-                  <ImageWithFallback
-                    src={article.cover?.url || category.image?.url || ''}
-                    alt={article.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-6 space-y-4">
-                  <h3 className="text-xl text-[#2C2C2C] group-hover:text-[#722F37] transition-colors leading-snug">
-                    {article.title}
-                  </h3>
-                  <p className="text-sm text-[#404040] line-clamp-2">
-                    {article.excerpt}
-                  </p>
-                  <div className="flex items-center space-x-3 text-xs text-[#404040]">
-                    <span>{article.author.name}</span>
-                    <span>•</span>
-                    <span>{article.readTime}</span>
+                <Link href={`/blog/${category.slug}/${article.slug}`}>
+                  <div className="aspect-[16/10] overflow-hidden bg-[#F5F5F5]">
+                    <ImageWithFallback
+                      src={article.cover?.url || category.image?.url}
+                      alt={article.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
                   </div>
-                </div>
+                  <div className="p-6 space-y-4">
+                    <h3 className="text-xl text-[#2C2C2C] group-hover:text-[#722F37] transition-colors leading-snug">
+                      {article.title}
+                    </h3>
+                    <p className="text-sm text-[#404040] line-clamp-2">{article.excerpt}</p>
+                    <div className="flex items-center space-x-3 text-xs text-[#404040]">
+                      <span>{article.author.name}</span>
+                      <span>•</span>
+                      <span>{article.readTime}</span>
+                    </div>
+                  </div>
+                </Link>
               </motion.article>
             ))}
           </div>
@@ -194,21 +182,16 @@ export function CategorySection({
             className="flex items-center justify-between mb-12"
           >
             <div className="flex items-center space-x-4">
-              <div 
-                className="w-1 h-12 rounded-full"
-                style={{ backgroundColor: category.color }}
-              />
-              <h2 className="text-3xl sm:text-4xl text-[#2C2C2C]">
-                {category.name}
-              </h2>
+              <div className="w-1 h-12 rounded-full" style={{ backgroundColor: category.color }} />
+              <h2 className="text-3xl sm:text-4xl text-[#2C2C2C]">{category.name}</h2>
             </div>
-            <button
-              onClick={() => onNavigateToCategory(category.slug)}
+            <Link
+              href={`/blog/${category.slug}`}
               className="group flex items-center space-x-2 text-[#722F37] hover:text-[#8B3A42] transition-colors"
             >
               <span className="text-sm tracking-wide">Ver Todos</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </button>
+            </Link>
           </motion.div>
 
           {/* Split Layout */}
@@ -220,27 +203,26 @@ export function CategorySection({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
-                className="group cursor-pointer"
-                onClick={() => onNavigateToArticle(article.slug)}
+                className="group"
               >
-                <div className="aspect-[16/11] overflow-hidden bg-[#F5F5F5] mb-6">
-                  <ImageWithFallback
-                    src={article.cover?.url || category.image?.url || ''}
-                    alt={article.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                </div>
-                <h3 className="text-2xl sm:text-3xl text-[#2C2C2C] mb-4 group-hover:text-[#722F37] transition-colors leading-tight">
-                  {article.title}
-                </h3>
-                <p className="text-[#404040] mb-4 leading-relaxed">
-                  {article.excerpt}
-                </p>
-                <div className="flex items-center space-x-3 text-sm text-[#404040]">
-                  <span>{article.author.name}</span>
-                  <span>•</span>
-                  <span>{article.readTime}</span>
-                </div>
+                <Link href={`/blog/${category.slug}/${article.slug}`}>
+                  <div className="aspect-[16/11] overflow-hidden bg-[#F5F5F5] mb-6">
+                    <ImageWithFallback
+                      src={article.cover?.url || category.image?.url}
+                      alt={article.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl text-[#2C2C2C] mb-4 group-hover:text-[#722F37] transition-colors leading-tight">
+                    {article.title}
+                  </h3>
+                  <p className="text-[#404040] mb-4 leading-relaxed">{article.excerpt}</p>
+                  <div className="flex items-center space-x-3 text-sm text-[#404040]">
+                    <span>{article.author.name}</span>
+                    <span>•</span>
+                    <span>{article.readTime}</span>
+                  </div>
+                </Link>
               </motion.article>
             ))}
           </div>
@@ -262,21 +244,16 @@ export function CategorySection({
           className="flex items-center justify-between mb-12"
         >
           <div className="flex items-center space-x-4">
-            <div 
-              className="w-1 h-12 rounded-full"
-              style={{ backgroundColor: category.color }}
-            />
-            <h2 className="text-3xl sm:text-4xl text-[#2C2C2C]">
-              {category.name}
-            </h2>
+            <div className="w-1 h-12 rounded-full" style={{ backgroundColor: category.color }} />
+            <h2 className="text-3xl sm:text-4xl text-[#2C2C2C]">{category.name}</h2>
           </div>
-          <button
-            onClick={() => onNavigateToCategory(category.slug)}
+          <Link
+            href={`/blog/${category.slug}`}
             className="group flex items-center space-x-2 text-[#722F37] hover:text-[#8B3A42] transition-colors"
           >
             <span className="text-sm tracking-wide">Ver Todos</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </button>
+          </Link>
         </motion.div>
 
         {/* Minimal List */}
@@ -288,35 +265,34 @@ export function CategorySection({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group cursor-pointer pb-8 border-b border-gray-200 last:border-0"
-              onClick={() => onNavigateToArticle(article.slug)}
+              className="group pb-8 border-b border-gray-200 last:border-0"
             >
-              <div className="grid sm:grid-cols-12 gap-6">
-                <div className="sm:col-span-8 lg:col-span-9 space-y-3">
-                  <h3 className="text-2xl text-[#2C2C2C] group-hover:text-[#722F37] transition-colors">
-                    {article.title}
-                  </h3>
-                  <p className="text-[#404040] line-clamp-2">
-                    {article.excerpt}
-                  </p>
-                  <div className="flex items-center space-x-3 text-sm text-[#404040]">
-                    <span>{article.author.name}</span>
-                    <span>•</span>
-                    <span>{article.readTime}</span>
-                  </div>
-                </div>
-                {article.cover && (
-                  <div className="sm:col-span-4 lg:col-span-3">
-                    <div className="aspect-square overflow-hidden bg-[#F5F5F5]">
-                      <ImageWithFallback
-                        src={article.cover.url}
-                        alt={article.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
+              <Link href={`/blog/${category.slug}/${article.slug}`}>
+                <div className="grid sm:grid-cols-12 gap-6">
+                  <div className="sm:col-span-8 lg:col-span-9 space-y-3">
+                    <h3 className="text-2xl text-[#2C2C2C] group-hover:text-[#722F37] transition-colors">
+                      {article.title}
+                    </h3>
+                    <p className="text-[#404040] line-clamp-2">{article.excerpt}</p>
+                    <div className="flex items-center space-x-3 text-sm text-[#404040]">
+                      <span>{article.author.name}</span>
+                      <span>•</span>
+                      <span>{article.readTime}</span>
                     </div>
                   </div>
-                )}
-              </div>
+                  {article.cover && (
+                    <div className="sm:col-span-4 lg:col-span-3">
+                      <div className="aspect-square overflow-hidden bg-[#F5F5F5]">
+                        <ImageWithFallback
+                          src={article.cover.url}
+                          alt={article.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </Link>
             </motion.article>
           ))}
         </div>
