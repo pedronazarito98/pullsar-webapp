@@ -2,7 +2,8 @@
   "collectionName": "components_blocks_ctas",
   "info": {
     "displayName": "CTA",
-    "icon": "cursor"
+    "icon": "bullhorn",
+    "description": "Call to Action"
   },
   "options": {},
   "attributes": {
@@ -11,8 +12,7 @@
       "required": true
     },
     "description": {
-      "type": "text",
-      "required": false
+      "type": "text"
     },
     "buttonText": {
       "type": "string",
@@ -23,8 +23,7 @@
       "required": true
     },
     "icon": {
-      "type": "string",
-      "required": false
+      "type": "string"
     },
     "variant": {
       "type": "enumeration",

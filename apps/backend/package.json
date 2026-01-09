@@ -2,49 +2,43 @@
   "name": "@pullsar/backend",
   "version": "0.1.0",
   "private": true,
-  "description": "Pullsar Strapi CMS Backend",
+  "description": "Pullsar CMS - Strapi Backend",
   "scripts": {
     "build": "strapi build",
     "console": "strapi console",
     "deploy": "strapi deploy",
     "dev": "strapi develop",
     "develop": "strapi develop",
-    "seed:example": "node ./scripts/seed.js",
     "start": "strapi start",
     "strapi": "strapi",
-    "lint": "echo 'No linting configured for Strapi'",
     "type-check": "tsc --noEmit",
-    "clean": "rm -rf .cache build dist .strapi .turbo node_modules",
+    "clean": "rm -rf .tmp .cache build node_modules",
     "upgrade": "npx @strapi/upgrade latest",
     "upgrade:dry": "npx @strapi/upgrade latest --dry"
   },
   "dependencies": {
-    "@sensinum/strapi-plugin-mcp": "1.1.0",
-    "@strapi/plugin-cloud": "5.30.0",
-    "@strapi/plugin-users-permissions": "5.30.0",
-    "@strapi/strapi": "5.30.0",
-    "better-sqlite3": "11.3.0",
-    "fs-extra": "^10.0.0",
-    "mime-types": "^2.1.27",
+    "@strapi/plugin-cloud": "5.33.1",
+    "@strapi/plugin-users-permissions": "5.33.1",
+    "@strapi/strapi": "5.33.1",
+    "better-sqlite3": "12.4.1",
+    "pg": "^8.16.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
     "styled-components": "^6.0.0"
   },
   "devDependencies": {
-    "@pullsar/typescript-config": "workspace:*",
-    "@strapi/types": "5.31.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "typescript": "^5"
   },
   "engines": {
-    "node": ">=18.0.0 <=22.x.x",
+    "node": ">=20.0.0 <=24.x.x",
     "npm": ">=6.0.0"
   },
   "strapi": {
-    "uuid": "e72668be-f4af-4156-81bb-b01fe3db585d",
-    "installId": "1fd6922fc3fc3a797fb9c05134b39d1b788b345584c3851bf2a224dfd05d2dae"
+    "uuid": "e1942ca7-63f1-417a-9fca-1108c0b74c4f",
+    "installId": "dc667c9e8987e558a2f5ab30822683a3c25aadedf5463a6a2b2cecc9ac7ff0dc"
   }
 }

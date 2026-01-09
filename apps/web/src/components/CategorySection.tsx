@@ -54,14 +54,14 @@ export function CategorySection({ category, layout }: CategorySectionProps) {
               className="relative group overflow-hidden"
             >
               <Link href={`/blog/${category.slug}/${featuredArticle.slug}`}>
-                <div className="aspect-[4/5] overflow-hidden bg-[#F5F5F5]">
+                <div className="aspect-4/5 overflow-hidden bg-[#F5F5F5]">
                   <ImageWithFallback
                     src={featuredArticle.cover?.url || category.image?.url}
                     alt={featuredArticle.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </Link>
             </motion.div>
 
@@ -86,9 +86,9 @@ export function CategorySection({ category, layout }: CategorySectionProps) {
               </div>
 
               <div className="flex items-center space-x-4 text-sm text-[#404040]">
-                <span>{featuredArticle.author.name}</span>
+                <span>{featuredArticle.author?.name || 'Autor'}</span>
                 <span>•</span>
-                <span>{featuredArticle.readTime}</span>
+                <span>{featuredArticle.readTime || '5 min'}</span>
               </div>
 
               <Link
@@ -142,7 +142,7 @@ export function CategorySection({ category, layout }: CategorySectionProps) {
                 className="group bg-white overflow-hidden hover:shadow-2xl transition-all duration-500"
               >
                 <Link href={`/blog/${category.slug}/${article.slug}`}>
-                  <div className="aspect-[16/10] overflow-hidden bg-[#F5F5F5]">
+                  <div className="aspect-16/10 overflow-hidden bg-[#F5F5F5]">
                     <ImageWithFallback
                       src={article.cover?.url || category.image?.url}
                       alt={article.title}
@@ -155,9 +155,9 @@ export function CategorySection({ category, layout }: CategorySectionProps) {
                     </h3>
                     <p className="text-sm text-[#404040] line-clamp-2">{article.excerpt}</p>
                     <div className="flex items-center space-x-3 text-xs text-[#404040]">
-                      <span>{article.author.name}</span>
+                      <span>{article.author?.name || 'Autor'}</span>
                       <span>•</span>
-                      <span>{article.readTime}</span>
+                      <span>{article.readTime || '5 min'}</span>
                     </div>
                   </div>
                 </Link>
@@ -206,7 +206,7 @@ export function CategorySection({ category, layout }: CategorySectionProps) {
                 className="group"
               >
                 <Link href={`/blog/${category.slug}/${article.slug}`}>
-                  <div className="aspect-[16/11] overflow-hidden bg-[#F5F5F5] mb-6">
+                  <div className="aspect-16/11 overflow-hidden bg-[#F5F5F5] mb-6">
                     <ImageWithFallback
                       src={article.cover?.url || category.image?.url}
                       alt={article.title}
@@ -218,9 +218,9 @@ export function CategorySection({ category, layout }: CategorySectionProps) {
                   </h3>
                   <p className="text-[#404040] mb-4 leading-relaxed">{article.excerpt}</p>
                   <div className="flex items-center space-x-3 text-sm text-[#404040]">
-                    <span>{article.author.name}</span>
+                    <span>{article.author?.name || 'Autor'}</span>
                     <span>•</span>
-                    <span>{article.readTime}</span>
+                    <span>{article.readTime || '5 min'}</span>
                   </div>
                 </Link>
               </motion.article>
@@ -275,9 +275,9 @@ export function CategorySection({ category, layout }: CategorySectionProps) {
                     </h3>
                     <p className="text-[#404040] line-clamp-2">{article.excerpt}</p>
                     <div className="flex items-center space-x-3 text-sm text-[#404040]">
-                      <span>{article.author.name}</span>
+                      <span>{article.author?.name || 'Autor'}</span>
                       <span>•</span>
-                      <span>{article.readTime}</span>
+                      <span>{article.readTime || '5 min'}</span>
                     </div>
                   </div>
                   {article.cover && (

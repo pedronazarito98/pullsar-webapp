@@ -2,19 +2,19 @@
   "collectionName": "components_blocks_image_sliders",
   "info": {
     "displayName": "Image Slider",
-    "icon": "images"
+    "icon": "images",
+    "description": "Carrossel de imagens"
   },
   "options": {},
   "attributes": {
+    "title": {
+      "type": "string"
+    },
     "images": {
       "type": "media",
       "multiple": true,
-      "required": false,
+      "required": true,
       "allowedTypes": ["images"]
-    },
-    "title": {
-      "type": "string",
-      "required": false
     }
   }
 }

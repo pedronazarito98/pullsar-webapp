@@ -20,6 +20,7 @@ import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { Streamdown } from 'streamdown';
 import { ERROR_IMG_SRC, ImageWithFallback } from './figma/ImageWithFallback';
 
 interface ContentBlockRendererProps {
@@ -29,10 +30,9 @@ interface ContentBlockRendererProps {
 // Rich Text Block
 function RichTextBlockComponent({ block }: { block: RichTextBlock }) {
   return (
-    <div
-      className="prose prose-lg max-w-none prose-headings:text-[#2C2C2C] prose-p:text-[#404040] prose-a:text-[#722F37] prose-strong:text-[#2C2C2C] prose-blockquote:border-l-[#722F37] prose-blockquote:text-[#404040]"
-      dangerouslySetInnerHTML={{ __html: block.content }}
-    />
+    <div className="prose prose-lg max-w-none prose-headings:text-[#1A1A1A] prose-p:text-[#333333] prose-a:text-[#722F37] prose-strong:text-[#1A1A1A] prose-blockquote:border-l-[#722F37] prose-blockquote:text-[#444444]">
+      <Streamdown>{block.content}</Streamdown>
+    </div>
   );
 }
 
@@ -40,7 +40,7 @@ function RichTextBlockComponent({ block }: { block: RichTextBlock }) {
 function ImageBlockComponent({ block }: { block: ImageBlock }) {
   return (
     <figure className="my-8">
-      <div className="relative aspect-[16/9] overflow-hidden rounded-lg">
+      <div className="relative aspect-video overflow-hidden rounded-lg">
         <ImageWithFallback
           src={block.image.url}
           alt={block.alt || block.image.alternativeText || ''}
@@ -79,7 +79,7 @@ function ImageSliderBlockComponent({ block }: { block: ImageSliderBlock }) {
     <div className="my-8">
       {block.title && <h3 className="text-lg font-medium text-[#2C2C2C] mb-4">{block.title}</h3>}
       <div className="relative overflow-hidden rounded-lg">
-        <div className="relative aspect-[16/9]">
+        <div className="relative aspect-video">
           <Image
             src={block.images[currentIndex]?.url || ERROR_IMG_SRC}
             alt={block.images[currentIndex]?.alternativeText || `Imagem ${currentIndex + 1}`}
@@ -159,7 +159,7 @@ function CTABlockComponent({ block }: { block: CTABlock }) {
   return (
     <motion.div
       whileHover={{ scale: 1.01 }}
-      className="my-8 p-8 bg-gradient-to-r from-[#722F37]/10 to-[#722F37]/5 rounded-2xl"
+      className="my-8 p-8 bg-linear-to-r from-[#722F37]/10 to-[#722F37]/5 rounded-2xl"
     >
       <h3 className="text-2xl font-bold text-[#2C2C2C] mb-2">{block.title}</h3>
       {block.description && (

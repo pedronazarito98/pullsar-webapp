@@ -2,13 +2,14 @@
   "collectionName": "components_blocks_rich_texts",
   "info": {
     "displayName": "Rich Text",
-    "icon": "file"
+    "icon": "file-lines",
+    "description": "Bloco de texto rico"
   },
   "options": {},
   "attributes": {
     "content": {
-      "type": "blocks"
+      "type": "richtext",
+      "required": true
     }
-  },
-  "config": {}
+  }
 }

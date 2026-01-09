@@ -2,15 +2,7 @@ export default [
   'strapi::logger',
   'strapi::errors',
   'strapi::security',
-  {
-    name: 'strapi::cors',
-    config: {
-      enabled: true,
-      origin: ['http://localhost:3000', 'http://localhost:3001'], // Next.js dev server
-      credentials: true,
-      headers: '*',
-    },
-  },
+  'strapi::cors',
   'strapi::poweredBy',
   'strapi::query',
   'strapi::body',

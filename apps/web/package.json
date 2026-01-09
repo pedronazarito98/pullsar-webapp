@@ -17,12 +17,14 @@
     "motion": "^12.23.24",
     "next": "16.0.0",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "streamdown": "1.6.11"
   },
   "devDependencies": {
     "@pullsar/eslint-config": "workspace:*",
     "@pullsar/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4",
+    "@tailwindcss/typography": "0.5.19",
     "@types/node": "^20",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19",

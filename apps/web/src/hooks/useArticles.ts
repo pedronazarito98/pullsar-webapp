@@ -1,6 +1,7 @@
-import { api } from '@/lib/api';
 import { PostBlock } from '@/types/strapiTypes';
 import { useQuery } from '@tanstack/react-query';
+
+const STRAPI_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337/api';
 
 export interface Article {
   id: number;
@@ -8,7 +9,7 @@ export interface Article {
   title: string;
   subtitle?: string;
   description: string;
-  excerpt?: string; // Alias for description for compatibility
+  excerpt?: string;
   slug: string;
   readTime?: string;
   views?: number;
@@ -39,9 +40,10 @@ export const useArticles = () => {
   return useQuery({
     queryKey: ['articles'],
     queryFn: async () => {
-      const { data } = await api.get('/articles?populate=*');
+      const response = await fetch(`${STRAPI_URL}/articles?populate=*`);
+      if (!response.ok) throw new Error('Failed to fetch articles');
+      const data = await response.json();
       const articles = data.data as Article[];
-      // Map description to excerpt for compatibility
       return articles.map((article) => ({
         ...article,
         excerpt: article.description || article.excerpt,
@@ -54,7 +56,9 @@ export const useArticle = (slug: string) => {
   return useQuery({
     queryKey: ['article', slug],
     queryFn: async () => {
-      const { data } = await api.get(`/articles?filters[slug][$eq]=${slug}&populate=*`);
+      const response = await fetch(`${STRAPI_URL}/articles?filters[slug][$eq]=${slug}&populate=*`);
+      if (!response.ok) throw new Error('Failed to fetch article');
+      const data = await response.json();
       const article = data.data[0] as Article;
       return {
         ...article,

@@ -5,7 +5,7 @@
     "singularName": "article",
     "pluralName": "articles",
     "displayName": "Article",
-    "description": "Create your blog content"
+    "description": "Artigos da plataforma Pullsar"
   },
   "options": {
     "draftAndPublish": true
@@ -13,21 +13,33 @@
   "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
-    "description": {
-      "type": "text",
-      "maxLength": 80
+    "subtitle": {
+      "type": "string"
     },
     "slug": {
       "type": "uid",
-      "targetField": "title"
+      "targetField": "title",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "readTime": {
+      "type": "string"
+    },
+    "views": {
+      "type": "integer",
+      "default": 0
     },
     "cover": {
       "type": "media",
       "multiple": false,
       "required": false,
-      "allowedTypes": ["images", "files", "videos"]
+      "allowedTypes": ["images"]
     },
     "author": {
       "type": "relation",
@@ -41,25 +53,10 @@
       "target": "api::category.category",
       "inversedBy": "articles"
     },
-    "subtitle": {
-      "type": "string"
-    },
-    "readTime": {
-      "type": "string"
-    },
-    "views": {
-      "type": "integer",
-      "default": 0
-    },
     "tags": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::tag.tag",
-      "inversedBy": "articles"
-    },
-    "blocks": {
-      "type": "dynamiczone",
-      "components": ["shared.media", "shared.quote", "shared.rich-text", "shared.slider"]
+      "target": "api::tag.tag"
     },
     "contentBlocks": {
       "type": "dynamiczone",
