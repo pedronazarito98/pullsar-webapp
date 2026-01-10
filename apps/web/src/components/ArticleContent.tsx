@@ -2,8 +2,8 @@
 
 import { ContentBlockRenderer } from '@/components/ContentBlockRenderer';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
-import { Article } from '@/hooks/useArticles';
-import { ArrowLeft, Bookmark, Calendar, Clock, Share2, User } from 'lucide-react';
+import { Article } from '@/types/strapiTypes';
+import { ArrowLeft, Calendar, Clock, Share2, User } from 'lucide-react';
 import { motion } from 'motion/react';
 import Link from 'next/link';
 
@@ -98,11 +98,35 @@ export function ArticleContent({ article, relatedArticles, categorySlug }: Artic
               </div>
 
               <div className="flex items-center gap-2 ml-auto">
-                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                <button
+                  onClick={async () => {
+                    const shareData = {
+                      title: article.title,
+                      text: article.subtitle || article.description,
+                      url: window.location.href,
+                    };
+
+                    if (navigator.share && navigator.canShare(shareData)) {
+                      try {
+                        await navigator.share(shareData);
+                      } catch {
+                        // Usuário cancelou ou erro
+                        console.log('Share cancelled or failed');
+                      }
+                    } else {
+                      // Fallback: copiar link para clipboard
+                      try {
+                        await navigator.clipboard.writeText(window.location.href);
+                        alert('Link copiado para a área de transferência!');
+                      } catch {
+                        console.error('Failed to copy');
+                      }
+                    }
+                  }}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  title="Compartilhar artigo"
+                >
                   <Share2 className="w-4 h-4" />
-                </button>
-                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                  <Bookmark className="w-4 h-4" />
                 </button>
               </div>
             </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { Category } from '@/hooks/useCategories';
+import { Category } from '@/types/strapiTypes';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import Link from 'next/link';

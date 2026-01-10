@@ -1,4 +1,4 @@
-import { Category } from '@/hooks/useCategories';
+import { Category } from '@/types/strapiTypes';
 import { Facebook, Instagram, Mail, Twitter, Youtube } from 'lucide-react';
 import Link from 'next/link';
 
@@ -34,18 +34,38 @@ export function Footer({ categories }: FooterProps) {
               A revista digital para mentes curiosas e apaixonadas por cultura contemporânea.
             </p>
             <div className="flex items-center space-x-3">
-              <button className="p-2 bg-white/10 hover:bg-[#722F37] transition-colors">
+              <Link
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-white/10 hover:bg-[#722F37] transition-colors"
+              >
                 <Instagram className="w-4 h-4" />
-              </button>
-              <button className="p-2 bg-white/10 hover:bg-[#722F37] transition-colors">
+              </Link>
+              <Link
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-white/10 hover:bg-[#722F37] transition-colors"
+              >
                 <Twitter className="w-4 h-4" />
-              </button>
-              <button className="p-2 bg-white/10 hover:bg-[#722F37] transition-colors">
+              </Link>
+              <Link
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-white/10 hover:bg-[#722F37] transition-colors"
+              >
                 <Facebook className="w-4 h-4" />
-              </button>
-              <button className="p-2 bg-white/10 hover:bg-[#722F37] transition-colors">
+              </Link>
+              <Link
+                href="https://youtube.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-white/10 hover:bg-[#722F37] transition-colors"
+              >
                 <Youtube className="w-4 h-4" />
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -71,19 +91,14 @@ export function Footer({ categories }: FooterProps) {
             <h3 className="tracking-wide mb-4">Sobre</h3>
             <ul className="space-y-2 text-sm text-gray-400">
               <li>
-                <button className="hover:text-[#722F37] transition-colors">Quem Somos</button>
+                <Link href="/sobre" className="hover:text-[#722F37] transition-colors">
+                  Quem Somos
+                </Link>
               </li>
               <li>
-                <button className="hover:text-[#722F37] transition-colors">Equipe Editorial</button>
-              </li>
-              <li>
-                <button className="hover:text-[#722F37] transition-colors">Anuncie Conosco</button>
-              </li>
-              <li>
-                <button className="hover:text-[#722F37] transition-colors">Trabalhe Conosco</button>
-              </li>
-              <li>
-                <button className="hover:text-[#722F37] transition-colors">Contato</button>
+                <Link href="/contato" className="hover:text-[#722F37] transition-colors">
+                  Contato
+                </Link>
               </li>
             </ul>
           </div>
@@ -98,7 +113,7 @@ export function Footer({ categories }: FooterProps) {
               <input
                 type="email"
                 placeholder="Seu email"
-                className="flex-1 px-4 py-2 bg-white/10 border border-white/20 text-sm focus:outline-none focus:border-[#722F37] transition-colors"
+                className="flex-1 px-4 py-2 bg-white/10 border border-white/20 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:border-[#722F37] transition-colors"
               />
               <button className="px-4 py-2 bg-[#722F37] hover:bg-[#8B3A42] transition-colors">
                 <Mail className="w-4 h-4" />
@@ -113,10 +128,12 @@ export function Footer({ categories }: FooterProps) {
             © 2025 Cultura Magazine. Todos os direitos reservados.
           </p>
           <div className="flex items-center space-x-6 text-sm text-gray-500">
-            <button className="hover:text-[#722F37] transition-colors">
+            <Link href="/privacidade" className="hover:text-[#722F37] transition-colors">
               Política de Privacidade
-            </button>
-            <button className="hover:text-[#722F37] transition-colors">Termos de Uso</button>
+            </Link>
+            <Link href="/termos" className="hover:text-[#722F37] transition-colors">
+              Termos de Uso
+            </Link>
           </div>
         </div>
       </div>

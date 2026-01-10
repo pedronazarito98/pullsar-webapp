@@ -1,6 +1,6 @@
 'use client';
 
-import { Article } from '@/hooks/useArticles';
+import { Article } from '@/types/strapiTypes';
 import { ArrowRight, Clock } from 'lucide-react';
 import { motion } from 'motion/react';
 import Link from 'next/link';

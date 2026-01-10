@@ -31,6 +31,8 @@ export interface StrapiCategory {
   name: string;
   slug: string;
   color: string;
+  description?: string;
+  image?: StrapiImage;
 }
 
 // Dynamic Zone Block Types
@@ -92,25 +94,32 @@ export type PostBlock =
   | VideoEmbedBlock
   | CTABlock;
 
-// Main Post Interface
-export interface Post {
+// Main Article Interface (formerly Post)
+export interface Article {
   id: number;
   documentId: string;
   title: string;
   subtitle?: string;
   slug: string;
   description: string;
-  readTime: string;
+  excerpt?: string; // Added for compatibility
+  readTime?: string;
+  views?: number;
   publishedAt: string;
   cover?: StrapiImage;
   author: StrapiAuthor;
   category: StrapiCategory;
-  contentBlocks: PostBlock[]; // Dynamic Zone
+  contentBlocks?: PostBlock[]; // Dynamic Zone
   tags?: Array<{
     id: number;
     name: string;
     slug: string;
   }>;
+}
+
+// Extended Category with Articles
+export interface Category extends StrapiCategory {
+  articles?: Article[];
 }
 
 // Strapi API Response Wrapper

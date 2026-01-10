@@ -1,5 +1,4 @@
-import { Article } from '@/hooks/useArticles';
-import { Category } from '@/hooks/useCategories';
+import { Article, Category } from '@/types/strapiTypes';
 
 const STRAPI_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337/api';
 

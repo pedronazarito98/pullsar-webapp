@@ -2,8 +2,7 @@
 
 import { CategorySection } from '@/components/CategorySection';
 import { Hero } from '@/components/Hero';
-import { Article } from '@/hooks/useArticles';
-import { Category } from '@/hooks/useCategories';
+import { Article, Category } from '@/types/strapiTypes';
 import { AnimatePresence, motion } from 'motion/react';
 
 // Layouts das seções para variar visualmente

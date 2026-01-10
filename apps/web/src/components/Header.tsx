@@ -1,7 +1,7 @@
 'use client';
 
-import { Category } from '@/hooks/useCategories';
-import { Bookmark, Menu, Search, User, X } from 'lucide-react';
+import { Category } from '@/types/strapiTypes';
+import { Menu, Search, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -84,16 +84,6 @@ export function Header({ categories, onNavigateToHome, onNavigateToCategory }: H
                 <Search className="w-5 h-5 text-[#2C2C2C]" />
               </button>
 
-              {/* Bookmark */}
-              <button className="hidden sm:block p-2 hover:bg-[#FAFAFA] rounded-full transition-colors">
-                <Bookmark className="w-5 h-5 text-[#2C2C2C]" />
-              </button>
-
-              {/* User */}
-              <button className="hidden sm:block p-2 hover:bg-[#FAFAFA] rounded-full transition-colors">
-                <User className="w-5 h-5 text-[#2C2C2C]" />
-              </button>
-
               {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -124,7 +114,7 @@ export function Header({ categories, onNavigateToHome, onNavigateToCategory }: H
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Buscar artigos, autores, tópicos..."
-                    className="w-full px-4 py-3 bg-[#FAFAFA] border border-gray-200 rounded-none focus:outline-none focus:border-[#722F37] transition-colors"
+                    className="w-full px-4 py-3 bg-[#FAFAFA] border border-gray-200 rounded-none text-[#2C2C2C] placeholder:text-gray-400 focus:outline-none focus:border-[#722F37] transition-colors"
                     autoFocus
                   />
                 </div>
@@ -187,17 +177,6 @@ export function Header({ categories, onNavigateToHome, onNavigateToCategory }: H
                         </Link>
                       </motion.div>
                     ))}
-                  </div>
-
-                  <div className="mt-8 pt-8 border-t border-gray-200 space-y-4">
-                    <button className="w-full flex items-center space-x-3 px-4 py-3 text-[#2C2C2C] hover:bg-[#FAFAFA] transition-colors rounded-sm">
-                      <Bookmark className="w-5 h-5" />
-                      <span>Favoritos</span>
-                    </button>
-                    <button className="w-full flex items-center space-x-3 px-4 py-3 text-[#2C2C2C] hover:bg-[#FAFAFA] transition-colors rounded-sm">
-                      <User className="w-5 h-5" />
-                      <span>Perfil</span>
-                    </button>
                   </div>
                 </nav>
               </div>
