@@ -3,6 +3,22 @@ import { Article, Category } from '@/types/strapiTypes';
 const STRAPI_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337/api';
 
 /**
+ * Valida formato de slug (apenas letras minúsculas, números e hífens)
+ */
+function isValidSlug(slug: string): boolean {
+  if (!slug || typeof slug !== 'string') return false;
+  const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+  return slugRegex.test(slug) && slug.length <= 200;
+}
+
+/**
+ * Sanitiza slug para uso seguro em queries
+ */
+function sanitizeSlug(slug: string): string {
+  return encodeURIComponent(slug.toLowerCase().trim());
+}
+
+/**
  * Fetch helper com tratamento de erros
  */
 async function fetchStrapi<T>(endpoint: string, options?: RequestInit): Promise<T> {
@@ -76,8 +92,14 @@ export async function fetchFeaturedArticle(): Promise<Article | null> {
  * Buscar categoria por slug
  */
 export async function fetchCategoryBySlug(slug: string): Promise<Category | null> {
+  if (!isValidSlug(slug)) {
+    console.warn('Invalid category slug format:', slug);
+    return null;
+  }
+
+  const safeSlug = sanitizeSlug(slug);
   const response = await fetchStrapi<{ data: Category[] }>(
-    `/categories?filters[slug][$eq]=${slug}&populate=*`
+    `/categories?filters[slug][$eq]=${safeSlug}&populate=*`
   );
 
   const categories = response.data || [];
@@ -103,8 +125,16 @@ export async function fetchArticleBySlug(
   categorySlug: string,
   articleSlug: string
 ): Promise<Article | null> {
+  if (!isValidSlug(categorySlug) || !isValidSlug(articleSlug)) {
+    console.warn('Invalid slug format:', { categorySlug, articleSlug });
+    return null;
+  }
+
+  const safeCategorySlug = sanitizeSlug(categorySlug);
+  const safeArticleSlug = sanitizeSlug(articleSlug);
+
   const response = await fetchStrapi<{ data: Article[] }>(
-    `/articles?filters[slug][$eq]=${articleSlug}&filters[category][slug][$eq]=${categorySlug}&populate=*`
+    `/articles?filters[slug][$eq]=${safeArticleSlug}&filters[category][slug][$eq]=${safeCategorySlug}&populate=*`
   );
 
   const articles = response.data || [];

@@ -1,0 +1,59 @@
+# Dependencies
+node_modules
+
+# Build output
+build
+dist
+
+# Strapi cache and temp files
+.tmp
+.cache
+.strapi
+.strapi-updater.json
+
+# Git
+.git
+.gitignore
+
+# Environment files (secrets)
+.env
+.env.*
+!.env.example
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Database files (for SQLite dev)
+*.sqlite
+*.db
+
+# Exports and backups
+exports
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test files
+coverage
+*.test.ts
+*.spec.ts
+__tests__
+
+# Documentation
+docs
+*.md
+!README.md
+
+# License
+LICENSE

@@ -1,0 +1,14 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "./Dockerfile"
+
+[deploy]
+numReplicas = 1
+startCommand = "node node_modules/@strapi/strapi/bin/strapi.js start"
+healthcheckPath = "/_health"
+healthcheckTimeout = 300
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
+
+[deploy.env]
+NODE_ENV = "production"

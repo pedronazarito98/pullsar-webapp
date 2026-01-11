@@ -1,14 +1,36 @@
 'use client';
 
+import DOMPurify from 'isomorphic-dompurify';
 import { RichTextBlock as RichTextBlockType } from '@/types/strapiTypes';
 import { motion } from 'motion/react';
+import { useMemo } from 'react';
 
 interface RichTextBlockProps {
   block: RichTextBlockType;
   animated?: boolean;
 }
 
+const ALLOWED_TAGS = [
+  'p', 'br', 'strong', 'em', 'b', 'i', 'u', 's',
+  'a', 'ul', 'ol', 'li',
+  'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+  'blockquote', 'code', 'pre',
+  'table', 'thead', 'tbody', 'tr', 'th', 'td',
+  'img', 'figure', 'figcaption',
+  'div', 'span'
+];
+
+const ALLOWED_ATTR = ['href', 'target', 'rel', 'class', 'src', 'alt', 'title', 'width', 'height'];
+
 export function RichTextBlock({ block, animated = false }: RichTextBlockProps) {
+  const sanitizedContent = useMemo(() => {
+    return DOMPurify.sanitize(block.content, {
+      ALLOWED_TAGS,
+      ALLOWED_ATTR,
+      ALLOW_DATA_ATTR: false,
+    });
+  }, [block.content]);
+
   const content = (
     <div
       className="prose prose-lg max-w-none
@@ -20,7 +42,7 @@ export function RichTextBlock({ block, animated = false }: RichTextBlockProps) {
         prose-blockquote:border-l-4 prose-blockquote:border-[#722F37] prose-blockquote:pl-4
         prose-code:bg-[#F5F5F5] prose-code:px-1 prose-code:py-0.5 prose-code:rounded
         prose-pre:bg-[#2C2C2C] prose-pre:text-white"
-      dangerouslySetInnerHTML={{ __html: block.content }}
+      dangerouslySetInnerHTML={{ __html: sanitizedContent }}
     />
   );
 
