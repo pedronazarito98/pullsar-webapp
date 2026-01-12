@@ -1,34 +1,38 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
+
+// Domínio do Strapi para permitir embedding no Preview
+const STRAPI_ADMIN_URL = process.env.STRAPI_ADMIN_URL || 'http://localhost:1337';
 
 const securityHeaders = [
   {
     key: 'X-DNS-Prefetch-Control',
-    value: 'on'
+    value: 'on',
   },
   {
     key: 'Strict-Transport-Security',
-    value: 'max-age=63072000; includeSubDomains; preload'
-  },
-  {
-    key: 'X-Frame-Options',
-    value: 'SAMEORIGIN'
+    value: 'max-age=63072000; includeSubDomains; preload',
   },
   {
     key: 'X-Content-Type-Options',
-    value: 'nosniff'
+    value: 'nosniff',
   },
   {
     key: 'Referrer-Policy',
-    value: 'origin-when-cross-origin'
+    value: 'origin-when-cross-origin',
   },
   {
     key: 'Permissions-Policy',
-    value: 'camera=(), microphone=(), geolocation=()'
+    value: 'camera=(), microphone=(), geolocation=()',
   },
   {
     key: 'X-XSS-Protection',
-    value: '1; mode=block'
-  }
+    value: '1; mode=block',
+  },
+  // CSP frame-ancestors permite que o Strapi faça embedding do frontend
+  {
+    key: 'Content-Security-Policy',
+    value: `frame-ancestors 'self' ${STRAPI_ADMIN_URL}`,
+  },
 ];
 
 const nextConfig: NextConfig = {

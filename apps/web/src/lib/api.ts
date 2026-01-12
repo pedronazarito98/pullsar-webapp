@@ -1,4 +1,5 @@
 import { Article, Category } from '@/types/strapiTypes';
+import { draftMode } from 'next/headers';
 
 const STRAPI_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337/api';
 
@@ -19,10 +20,33 @@ function sanitizeSlug(slug: string): string {
 }
 
 /**
- * Fetch helper com tratamento de erros
+ * Verifica se está em draft mode de forma segura
+ * Retorna false se chamado fora do contexto de request (ex: durante build)
+ */
+async function isDraftModeEnabled(): Promise<boolean> {
+  try {
+    const { isEnabled } = await draftMode();
+    return isEnabled;
+  } catch {
+    // Fora do contexto de request (ex: generateStaticParams)
+    return false;
+  }
+}
+
+/**
+ * Fetch helper com tratamento de erros e suporte a draft mode
  */
 async function fetchStrapi<T>(endpoint: string, options?: RequestInit): Promise<T> {
-  const url = `${STRAPI_URL}${endpoint}`;
+  // Verificar se está em draft mode (preview) de forma segura
+  const isDraft = await isDraftModeEnabled();
+
+  let url = `${STRAPI_URL}${endpoint}`;
+
+  // Adicionar status=draft quando em draft mode para buscar conteúdo não publicado
+  if (isDraft) {
+    const separator = url.includes('?') ? '&' : '?';
+    url = `${url}${separator}status=draft`;
+  }
 
   const response = await fetch(url, {
     ...options,

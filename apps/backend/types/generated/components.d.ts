@@ -67,7 +67,31 @@ export interface BlocksRichText extends Struct.ComponentSchema {
     icon: 'file-lines';
   };
   attributes: {
-    content: Schema.Attribute.RichText & Schema.Attribute.Required;
+    content: Schema.Attribute.RichText &
+      Schema.Attribute.Required &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+  };
+}
+
+export interface BlocksTeste extends Struct.ComponentSchema {
+  collectionName: 'components_blocks_testes';
+  info: {
+    displayName: 'teste';
+    icon: 'alien';
+  };
+  attributes: {
+    content: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
   };
 }
 
@@ -93,6 +117,7 @@ declare module '@strapi/strapi' {
       'blocks.image-slider': BlocksImageSlider;
       'blocks.quote': BlocksQuote;
       'blocks.rich-text': BlocksRichText;
+      'blocks.teste': BlocksTeste;
       'blocks.video-embed': BlocksVideoEmbed;
     }
   }
