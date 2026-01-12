@@ -69,7 +69,9 @@ async function fetchStrapi<T>(endpoint: string, options?: RequestInit): Promise<
  * Buscar todas as categorias com artigos
  */
 export async function fetchCategories(): Promise<Category[]> {
-  const response = await fetchStrapi<{ data: Category[] }>('/categories?populate=*');
+  const response = await fetchStrapi<{ data: Category[] }>(
+    '/categories?populate[0]=image&populate[1]=articles.cover&populate[2]=articles.author&populate[3]=articles.category'
+  );
 
   return (response.data || []).map((cat) => ({
     ...cat,
@@ -123,7 +125,7 @@ export async function fetchCategoryBySlug(slug: string): Promise<Category | null
 
   const safeSlug = sanitizeSlug(slug);
   const response = await fetchStrapi<{ data: Category[] }>(
-    `/categories?filters[slug][$eq]=${safeSlug}&populate=*`
+    `/categories?filters[slug][$eq]=${safeSlug}&populate[0]=image&populate[1]=articles.cover&populate[2]=articles.author&populate[3]=articles.category`
   );
 
   const categories = response.data || [];
