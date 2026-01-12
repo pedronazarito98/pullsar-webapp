@@ -8,7 +8,15 @@ export default ({ env }) => [
         useDefaults: true,
         directives: {
           'connect-src': ["'self'", 'https:'],
-          'img-src': ["'self'", 'data:', 'blob:', 'https://*.supabase.co', 'https://res.cloudinary.com'],
+          'img-src': [
+            "'self'",
+            'data:',
+            'blob:',
+            'https://*.supabase.co',
+            'https://*.supabase.in',
+            'https://res.cloudinary.com',
+            process.env.SUPABASE_API_URL ? `${process.env.SUPABASE_API_URL}` : '',
+          ],
           'media-src': ["'self'", 'data:', 'blob:'],
           upgradeInsecureRequests: null,
         },
