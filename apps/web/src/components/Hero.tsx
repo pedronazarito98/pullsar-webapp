@@ -48,7 +48,7 @@ export function Hero({ featuredArticle }: HeroProps) {
           >
             <span
               className="inline-block px-4 py-1.5 text-white text-xs tracking-widest"
-              style={{ backgroundColor: featuredArticle.category.color }}
+              style={{ backgroundColor: featuredArticle.category?.color || '#722F37' }}
             >
               DESTAQUE DA SEMANA
             </span>
@@ -79,7 +79,7 @@ export function Hero({ featuredArticle }: HeroProps) {
             className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6"
           >
             <Link
-              href={`/blog/${featuredArticle.category.slug}/${featuredArticle.slug}`}
+              href={`/blog/${featuredArticle.category?.slug || 'artigo'}/${featuredArticle.slug}`}
               className="group flex items-center space-x-3 px-8 py-4 bg-[#722F37] hover:bg-[#8B3A42] text-white transition-all duration-300 hover:shadow-lg hover:shadow-[#722F37]/30"
             >
               <span className="tracking-wide">Ler Matéria</span>
@@ -99,7 +99,7 @@ export function Hero({ featuredArticle }: HeroProps) {
             className="mt-12 pt-8 border-t border-gray-700"
           >
             <p className="text-sm text-gray-500">
-              Por {featuredArticle.author.name} • {featuredArticle.category.name} • {publishedDate}
+              Por {featuredArticle.author?.name || 'Autor'} • {featuredArticle.category?.name || 'Categoria'} • {publishedDate}
             </p>
           </motion.div>
         </div>

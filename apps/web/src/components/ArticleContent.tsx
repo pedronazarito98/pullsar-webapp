@@ -180,9 +180,9 @@ export function ArticleContent({ article, relatedArticles, categorySlug }: Artic
             )}
             <div>
               <h3 className="text-xl text-[#2C2C2C] font-medium mb-2">
-                Sobre {article.author.name}
+                Sobre {article.author?.name}
               </h3>
-              <p className="text-[#404040] leading-relaxed">{article.author.bio}</p>
+              <p className="text-[#404040] leading-relaxed">{article.author?.bio}</p>
             </div>
           </div>
         </aside>
