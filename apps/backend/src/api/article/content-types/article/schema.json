@@ -39,9 +39,7 @@
       "type": "media",
       "multiple": false,
       "required": false,
-      "allowedTypes": [
-        "images"
-      ]
+      "allowedTypes": ["images"]
     },
     "author": {
       "type": "relation",
@@ -70,6 +68,9 @@
         "blocks.video-embed",
         "blocks.cta"
       ]
+    },
+    "imagePrompt": {
+      "type": "text"
     }
   }
 }
